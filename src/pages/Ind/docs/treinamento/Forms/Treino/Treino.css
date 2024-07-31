@@ -18,6 +18,8 @@ input {
   height: 100px;
   width: 100px;
   box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
 }
 
 .startext {
@@ -26,11 +28,13 @@ input {
   font-size: 1.8rem;
   color: #1da1f2;
   letter-spacing: 1px;
+  text-align: center; /* Alinha o texto no centro */
 }
 
 .certif {
   text-align: left;
   columns: 2;
+  gap: 1rem; /* Adiciona espaçamento entre colunas */
 }
 
 label,
@@ -45,10 +49,11 @@ button {
 
 .certifinput, .data {
   display: block;
-  padding: 0;
+  padding: 0.5rem; /* Adiciona algum espaçamento interno */
   border: none;
   outline: none;
   box-sizing: border-box;
+  width: 100%; /* Garante que o input ocupe toda a largura disponível */
 }
 
 select {
@@ -67,9 +72,22 @@ select {
   border-radius: 25px;
   touch-action: none; /* Evita problemas de zoom e rolagem em dispositivos móveis */
   display: block; /* Garante que o canvas se comporte corretamente */
-  margin: 0 auto; /* Centraliza o canvas, se necessário */
+  margin: 0 auto; /* Centraliza o canvas */
   width: 100%; /* Ajusta o tamanho do canvas para ocupar a largura completa do contêiner */
   height: 35vh; /* Mantém a proporção correta */
+}
+
+.clear {
+  margin-top: 2%;
+  width: 100%; /* Ocupa a largura total disponível */
+  max-width: 200px; /* Limita a largura máxima do botão */
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: ghostwhite;
+  background-color: #008000;
+  text-align: center; /* Alinha o texto no centro */
+  display: block; /* Garante que o botão se comporte corretamente */
 }
 
 /* Media Queries for Responsiveness */

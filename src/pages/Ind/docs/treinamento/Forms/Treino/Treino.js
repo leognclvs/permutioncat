@@ -3,17 +3,20 @@ import Certificado from "../../../../img/certificado.svg";
 import SignatureCanvas from 'react-signature-canvas';
 import React, { useRef } from 'react';
 
-function Start() {
-
+function Training() {
   const sigCanvas = useRef(null);
 
+  const clearSignature = () => {
+    sigCanvas.current.clear();
+  };
+
   return (
-    <div class="form">
+    <div className="form">
       <div>
         <img className="treino" src={Certificado} alt="instalacao" />
       </div>
-      <div class="startext">Certificado de Treinamento</div>
-      <div class="certif">
+      <div className="startext">Certificado de Treinamento</div>
+      <div className="certif">
         <label>Nome:</label>
         <input
           type="text"
@@ -38,7 +41,7 @@ function Start() {
           value={""}
           onChange={(e) => ""(e.target.value)}
         />
-      <label>Data:</label>
+        <label>Data:</label>
         <input
           type="date"
           className="data"
@@ -46,17 +49,18 @@ function Start() {
           value={""}
           onChange={(e) => ""(e.target.value)}
         />
-        </div>
-        <div>
-        <div>
+      </div>
+      <div>
         <SignatureCanvas 
           ref={sigCanvas}
           canvasProps={{className: 'sigCanvas' }}
         />
       </div>
-        </div>
+      <div>
+        <button className="clear" type="button" onClick={clearSignature}>Limpar Assinatura</button>
+      </div>
     </div>
   );
 }
 
-export default Start;
+export default Training;
