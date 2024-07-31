@@ -5,6 +5,7 @@
   height: calc(100vh - 200px);
   justify-content: center;
   align-items: center;
+  padding: 0 20px;
 }  
 
 .section-lab h1 {
@@ -22,6 +23,7 @@
   align-items: center;
   gap: 2rem;
   margin-top: 100px;
+  flex-wrap: wrap; /* Permitir quebra de linha */
 }
 
 .iconlab {
@@ -74,7 +76,7 @@
   color: white;
   font-size: 20px;
   opacity: 0;
-  transition: opacity 0.3 ease;
+  transition: opacity 0.3s ease;
   z-index: 1;
 }
 
@@ -82,13 +84,76 @@
   opacity: 1; /* Mostrar o texto ao passar o mouse */
 }
 
+@media (max-width: 1024px) {
+  .section-lab h1 {
+    font-size: 36px;
+  }
+  
+  .iconlab {
+    width: 9rem;
+    height: 9rem;
+    margin: 0 50px;
+  }
+  
+  .iconlab > .lab-icones {
+    font-size: 1.2rem;
+  }
+  
+  .iconlab .hover-text {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-lab h1 {
+    font-size: 32px;
+  }
+  
+  .iconlab {
+    width: 8rem;
+    height: 8rem;
+    margin: 0 40px;
+  }
+  
+  .iconlab > .lab-icones {
+    font-size: 1rem;
+  }
+  
+  .iconlab .hover-text {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 600px) {
   header {
-      padding: 10px 20px !important;
+    padding: 10px 20px !important;
   }
 
   .section-lab { 
-      padding: 0 40px 40px 40px !important;
-      width: calc(100% - 80px) !important;
+    padding: 0 20px 40px 20px !important;
+    width: 100% !important;
+  }
+
+  .section-lab h1 {
+    font-size: 28px;
+  }
+
+  .wraplab {
+    gap: 1rem;
+    margin-top: 50px;
+  }
+
+  .iconlab {
+    width: 7rem;
+    height: 7rem;
+    margin: 0 20px;
+  }
+
+  .iconlab > .lab-icones {
+    font-size: 0.9rem;
+  }
+
+  .iconlab .hover-text {
+    font-size: 14px;
   }
 }
