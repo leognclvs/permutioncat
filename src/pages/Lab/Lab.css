@@ -5,25 +5,31 @@
   height: calc(100vh - 200px);
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
-}  
+  padding: 20px;
+  box-sizing: border-box;
+}
 
 .section-lab h1 {
-  font-size: 40px;
+  font-size: 2.5rem;
+  text-align: center;
 }
 
 .lab-icones {
   height: 100px;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .wraplab {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  margin-top: 100px;
-  flex-wrap: wrap; /* Permitir quebra de linha */
+  margin-top: 50px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .iconlab {
@@ -35,8 +41,8 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin: 0 75px;
-  overflow: hidden; /* Para evitar que o conteúdo extrapole o limite do ícone */
+  margin: 10px;
+  overflow: hidden;
 }
 
 .iconlab > .lab-icones {
@@ -49,7 +55,7 @@
 }
 
 .iconlab:hover img {
-  transform: scale(1.4); /* Aumentar o tamanho da imagem */
+  transform: scale(1.4);
   fill: #005f8f;
   opacity: 0.1;
 }
@@ -74,53 +80,48 @@
   transform: translateY(-50%);
   margin-top: 25px;
   color: white;
-  font-size: 20px;
+  font-size: 1.25rem;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 1;
 }
 
 .iconlab:hover .hover-text {
-  opacity: 1; /* Mostrar o texto ao passar o mouse */
+  opacity: 1;
 }
 
 @media (max-width: 1024px) {
+  .section-lab {
+    height: auto;
+    padding: 20px;
+  }
+
   .section-lab h1 {
-    font-size: 36px;
+    font-size: 2rem;
   }
-  
+
   .iconlab {
-    width: 9rem;
-    height: 9rem;
-    margin: 0 50px;
+    width: 8.75rem;
+    height: 8.75rem;
   }
-  
-  .iconlab > .lab-icones {
-    font-size: 1.2rem;
-  }
-  
+
   .iconlab .hover-text {
-    font-size: 18px;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .section-lab h1 {
-    font-size: 32px;
+    font-size: 1.5rem;
   }
-  
+
   .iconlab {
-    width: 8rem;
-    height: 8rem;
-    margin: 0 40px;
+    width: 7.5rem;
+    height: 7.5rem;
   }
-  
-  .iconlab > .lab-icones {
-    font-size: 1rem;
-  }
-  
+
   .iconlab .hover-text {
-    font-size: 16px;
+    font-size: 0.875rem;
   }
 }
 
@@ -130,30 +131,21 @@
   }
 
   .section-lab { 
-    padding: 0 20px 40px 20px !important;
-    width: 100% !important;
+    padding: 0 20px 20px 20px !important;
+    width: calc(100% - 40px) !important;
+    height: auto;
   }
 
   .section-lab h1 {
-    font-size: 28px;
-  }
-
-  .wraplab {
-    gap: 1rem;
-    margin-top: 50px;
+    font-size: 1.25rem;
   }
 
   .iconlab {
-    width: 7rem;
-    height: 7rem;
-    margin: 0 20px;
-  }
-
-  .iconlab > .lab-icones {
-    font-size: 0.9rem;
+    width: 6.25rem;
+    height: 6.25rem;
   }
 
   .iconlab .hover-text {
-    font-size: 14px;
+    font-size: 0.75rem;
   }
 }
