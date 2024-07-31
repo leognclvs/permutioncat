@@ -43,7 +43,7 @@ function Laboratorial() {
                     <button className='item' onClick={() => setPage(1)}>Análise de Água</button>
                 </div>
             </Box>
-            <Box style={{ width: '60%' }}>
+            <Box style={{ width: '75%' }}>
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error.message}</p>}
                 {page === 1 && (

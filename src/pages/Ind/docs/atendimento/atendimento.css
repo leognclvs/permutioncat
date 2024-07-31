@@ -27,12 +27,13 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.save {
+.saveind {
+  width: 15%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 80px;
-  margin-top: 375%;
+  margin-top: 1%;
+  padding: 1.25%;
   border-radius: 8px;
   cursor: pointer;
   color: ghostwhite;
@@ -42,12 +43,12 @@
 
 .item:hover {
   background-color: #007f8f;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
-.save:hover {
+.saveind:hover {
   background-color: #32cd32;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .item img {
@@ -56,7 +57,7 @@
   margin-bottom: 6px;
 }
 
-.save img {
+.saveind img {
   width: 24px;
   height: 24px;
   margin-bottom: 6px;
@@ -66,7 +67,7 @@
   font-size: 11px;
 }
 
-.save span {
+.saveind span {
   font-size: 11px;
 }
 

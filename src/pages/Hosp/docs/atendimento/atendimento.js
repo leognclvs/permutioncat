@@ -55,7 +55,7 @@ function Atendimento() {
                     <button className='item' onClick={() => setPage(6)}>Aferição do Condutivímetro</button>
                 </div>
             </Box>
-            <Box style={{ width: '60%' }}>
+            <Box style={{ width: '75%' }}>
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error.message}</p>}
                 {page === 1 && (
@@ -88,10 +88,8 @@ function Atendimento() {
                         <Conductivity formData={formData} setFormData={setFormData} />
                     </form>
                 )}
-            </Box>
-            <Box className='sidebar' style={{ width: '20%' }}>
                 <div className='sidebar-items'>
-                    <button className='save' onClick={handleSubmit}>Salvar</button>
+                    <button className='saveind' onClick={handleSubmit}>Salvar</button>
                 </div>
             </Box>
         </Flex>
