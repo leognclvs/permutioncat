@@ -65,15 +65,56 @@ select {
   border: 1px solid #fff;
   background-color: #cbced1;
   border-radius: 25px;
-  margin-left: 5%;
-}
-
-.sigCanvas {
-  background-color: #cbced1;
-  border-radius: 25px;
   touch-action: none; /* Evita problemas de zoom e rolagem em dispositivos móveis */
   display: block; /* Garante que o canvas se comporte corretamente */
   margin: 0 auto; /* Centraliza o canvas, se necessário */
-  width: 100%; /* Ajusta o tamanho do canvas para ocupar a largura completa do contêiner *//* Limita a largura máxima do canvas */
+  width: 100%; /* Ajusta o tamanho do canvas para ocupar a largura completa do contêiner */
   height: 35vh; /* Mantém a proporção correta */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .startext {
+    font-size: 1.6rem;
+  }
+  
+  .certif {
+    columns: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 4%;
+  }
+
+  .startext {
+    font-size: 1.4rem;
+  }
+  
+  .certif {
+    columns: 1;
+  }
+
+  .sigCanvas {
+    height: 30vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .form {
+    padding: 6%;
+  }
+
+  .startext {
+    font-size: 1.2rem;
+  }
+  
+  .certif {
+    columns: 1;
+  }
+
+  .sigCanvas {
+    height: 25vh;
+  }
 }

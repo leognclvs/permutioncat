@@ -69,3 +69,56 @@ select {
   font-size: 14px;
   border-radius: 50px;
 }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .form {
+    padding: 3%;
+  }
+
+  .infotext {
+    font-size: 1.5rem;
+  }
+
+  .inputs {
+    columns: 1;
+  }
+
+  select, .data {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 4%;
+  }
+
+  .infotext {
+    font-size: 1.3rem;
+  }
+
+  select, .data {
+    width: 100%;
+    padding: 1.5%;
+  }
+}
+
+@media (max-width: 600px) {
+  .form {
+    padding: 5%;
+  }
+
+  .infotext {
+    font-size: 1.2rem;
+  }
+
+  .inputs {
+    columns: 1;
+  }
+
+  select, .data {
+    width: 100%;
+    padding: 1.2%;
+  }
+}
