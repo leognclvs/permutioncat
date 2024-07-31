@@ -6,8 +6,28 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Layout from "./components/layout";
 
-import { Home, Lab, Hosp, Ind } from './pages';
-import { Dashboard, Ordem, Atendimento, Treino, Laboratorial } from './pages/Ind/docs';
+import { Home, Lab, Hosp, Ind } from "./pages";
+import {
+  DashboardLab,
+  OrdemLab,
+  AtendimentoLab,
+  TreinoLab,
+  LaboratorialLab,
+} from "./pages/Lab/docs";
+import {
+  DashboardHosp,
+  OrdemHosp,
+  AtendimentoHosp,
+  TreinoHosp,
+  LaboratorialHosp,
+} from "./pages/Hosp/docs";
+import {
+  Dashboard,
+  Ordem,
+  Atendimento,
+  Treino,
+  Laboratorial,
+} from "./pages/Ind/docs";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -31,10 +51,90 @@ root.render(
           }
         />
         <Route
+          path="/lab/dashboard"
+          element={
+            <Layout>
+              <DashboardLab />
+            </Layout>
+          }
+        />
+        <Route
+          path="/lab/atendimento"
+          element={
+            <Layout>
+              <AtendimentoLab />
+            </Layout>
+          }
+        />
+        <Route
+          path="/lab/ordem"
+          element={
+            <Layout>
+              <OrdemLab />
+            </Layout>
+          }
+        />
+        <Route
+          path="/lab/treino"
+          element={
+            <Layout>
+              <TreinoLab />
+            </Layout>
+          }
+        />
+        <Route
+          path="/lab/laboratorial"
+          element={
+            <Layout>
+              <LaboratorialLab />
+            </Layout>
+          }
+        />
+        <Route
           path="/hosp"
           element={
             <Layout>
               <Hosp />
+            </Layout>
+          }
+        />
+        <Route
+          path="/hosp/dashboard"
+          element={
+            <Layout>
+              <DashboardHosp />
+            </Layout>
+          }
+        />
+        <Route
+          path="/hosp/atendimento"
+          element={
+            <Layout>
+              <AtendimentoHosp />
+            </Layout>
+          }
+        />
+        <Route
+          path="/hosp/ordem"
+          element={
+            <Layout>
+              <OrdemHosp />
+            </Layout>
+          }
+        />
+        <Route
+          path="/hosp/treino"
+          element={
+            <Layout>
+              <TreinoHosp />
+            </Layout>
+          }
+        />
+        <Route
+          path="/hosp/laboratorial"
+          element={
+            <Layout>
+              <LaboratorialHosp />
             </Layout>
           }
         />
@@ -90,6 +190,5 @@ root.render(
     </Router>
   </React.StrictMode>
 );
-
 
 reportWebVitals();

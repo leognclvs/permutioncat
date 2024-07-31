@@ -1,0 +1,193 @@
+import React, { useState } from 'react';
+import InputMask from 'react-input-mask';
+import axios from 'axios';
+import './Info.css';
+import Informacao from '../../img/info.svg';
+
+function Info() {
+  const [formData, setFormData] = useState({
+    data: '',
+    cat: '',
+    codigoCliente: '',
+    cliente: '',
+    codigoEquipamento: '',
+    equipamento: '',
+    contatoCliente: '',
+    cep: '',
+    endereco: '',
+    numero: '',
+    cidade: '',
+    estado: '',
+    responsavelPermution: '',
+    tecnicoResponsavel: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleCepChange = async (e) => {
+    const cep = e.target.value;
+    setFormData((prevState) => ({
+      ...prevState,
+      cep: cep
+    }));
+
+    if (cep.length === 9) {
+      try {
+        const response = await axios.get(`https://viacep.com.br/ws/${cep.replace('-', '')}/json/`);
+        const data = response.data;
+        setFormData((prevState) => ({
+          ...prevState,
+          endereco: data.logradouro,
+          cidade: data.localidade,
+          estado: data.uf
+        }));
+      } catch (error) {
+        console.error('Erro ao buscar o CEP:', error);
+      }
+    }
+  };
+
+  return (
+    <div className="form">
+      <div>
+        <img className="start" src={Informacao} alt="instalacao" />
+      </div>
+      <div className="startext">Informações do Cliente</div>
+      <div className="inputs">
+        <label>Data Agendada:</label>
+        <input
+          type="date"
+          className="data"
+          name="data"
+          value={formData.data}
+          onChange={handleChange}
+        />
+        <label>Número da CAT:</label>
+        <input
+          type="text"
+          name="cat"
+          value={formData.cat}
+          onChange={handleChange}
+        />
+        <label>Código do Cliente:</label>
+        <input
+          type="text"
+          name="codigoCliente"
+          value={formData.codigoCliente}
+          onChange={handleChange}
+        />
+        <label>Cliente:</label>
+        <input
+          type="text"
+          name="cliente"
+          value={formData.cliente}
+          onChange={handleChange}
+        />
+        <label>Código do Equipamento:</label>
+        <input
+          type="text"
+          name="codigoEquipamento"
+          value={formData.codigoEquipamento}
+          onChange={handleChange}
+        />
+        <label>Equipamento:</label>
+        <input
+          type="text"
+          name="equipamento"
+          value={formData.equipamento}
+          onChange={handleChange}
+        />
+        <label>Contato do Cliente:</label>
+        <input
+          type="text"
+          name="contatoCliente"
+          value={formData.contatoCliente}
+          onChange={handleChange}
+        />
+        <label>CEP:</label>
+        <InputMask
+          mask="99999-999"
+          type='text'
+          name="cep"
+          value={formData.cep}
+          onChange={handleCepChange}
+        />
+        <label>Endereço:</label>
+        <input
+          type="text"
+          name="endereco"
+          value={formData.endereco}
+          onChange={handleChange}
+          readOnly
+        />
+        <label>Número:</label>
+        <input
+          type="text"
+          name="numero"
+          value={formData.numero}
+          onChange={handleChange}
+        />
+        <label>Cidade:</label>
+        <input
+          type="text"
+          name="cidade"
+          value={formData.cidade}
+          onChange={handleChange}
+          readOnly
+        />
+        <label>Estado:</label>
+        <input
+          type="text"
+          name="estado"
+          value={formData.estado}
+          onChange={handleChange}
+          readOnly
+        />
+        <label>Responsável Permution:</label>
+        <select
+          name="responsavelPermution"
+          value={formData.responsavelPermution}
+          onChange={handleChange}
+          required
+        >
+          <option value="Selecione">Selecione</option>
+          <option value="Alessandra">Alessandra Amorim</option>
+          <option value="Alessandra L.">Alessandra Lindolfo</option>
+          <option value="Alessandro">Alessandro Ferreira</option>
+          <option value="Andressa">Andressa Remes</option>
+          <option value="Antônio">Antônio Pedro</option>
+          <option value="Bruna">Bruna Jaques</option>
+          <option value="Cléber">Cléber Padilha</option>
+          <option value="Leonardo">Leonardo Gonçalves</option>
+          <option value="Nicole">Nicole Capistrano</option>
+          <option value="Sarah">Sarah Coradin</option>
+          <option value="Taciane">Taciane Magno</option>
+        </select>
+        <label>Técnico Responsável:</label>
+        <select
+          name="tecnicoResponsavel"
+          value={formData.tecnicoResponsavel}
+          onChange={handleChange}
+          required
+        >
+          <option value="Selecione">Selecione</option>
+          <option value="Aliezio">Aliezio</option>
+          <option value="Ariel">Ariel</option>
+          <option value="Claudionor">Claudionor</option>
+          <option value="Edvaldo">Edvaldo</option>
+          <option value="Marcelo">Marcelo</option>
+          <option value="Milton">Milton</option>
+          <option value="Natanael">Natanael</option>
+        </select>
+      </div>
+    </div>
+  );
+}
+
+export default Info;

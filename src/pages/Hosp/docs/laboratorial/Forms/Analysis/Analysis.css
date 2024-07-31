@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+
+.form-container {
+  max-height: 85vh; /* Ajuste conforme necessário */
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+  width: 100%;
+  padding: 1%;
+  border-radius: 20px;
+  box-sizing: border-box;
+  background: #001f3d;
+}
+
+.form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: #001f3d;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.savetext {
+  margin-bottom: 2%;
+  display: inline-flex;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1da1f2;
+  letter-spacing: 1px;
+}
+
+.forms-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.savelab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin: 20px;
+  cursor: pointer;
+  color: ghostwhite;
+  background-color: #008000;
+  transition: transform 0.3s ease-in-out;
+}
+
+.savelab:hover {
+  background-color: #32cd32;
+  transform: scale(1.05);
+}
+
+.savelab span {
+  font-size: 11px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .form-container {
+    padding: 10px;
+  }
+  
+  .savetext {
+    font-size: 1.6rem;
+  }
+
+  .savelab {
+    padding: 16px 60px;
+  }
+
+  .savelab span {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 8px;
+  }
+  
+  .savetext {
+    font-size: 1.4rem;
+  }
+
+  .savelab {
+    padding: 16px 50px;
+  }
+
+  .savelab span {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    padding: 6px;
+  }
+  
+  .savetext {
+    font-size: 1.2rem;
+  }
+
+  .savelab {
+    padding: 16px 40px;
+  }
+
+  .savelab span {
+    font-size: 8px;
+  }
+}

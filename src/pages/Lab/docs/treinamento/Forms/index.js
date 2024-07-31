@@ -1,0 +1,1 @@
+export { default as Treino } from './Treino/Treino';
