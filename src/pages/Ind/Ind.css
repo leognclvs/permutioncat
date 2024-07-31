@@ -1,0 +1,151 @@
+.section-ind { 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Added padding for smaller screens */
+  box-sizing: border-box;
+}
+
+.section-ind h1 {
+  font-size: 2.5rem;
+  text-align: center; /* Center text for better alignment on smaller screens */
+}
+
+.ind-icones {
+  height: 100px;
+  display: flex;
+  flex-wrap: wrap; /* Allow icons to wrap on smaller screens */
+  justify-content: center; /* Center icons */
+}
+
+.wrapind {
+  display: flex;
+  flex-wrap: wrap; /* Allow icons to wrap on smaller screens */
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 50px; /* Adjust margin for smaller screens */
+  padding: 0 20px; /* Prevent overflow on smaller screens */
+  box-sizing: border-box;
+}
+
+.iconind {
+  text-decoration: none;
+  width: 10.625rem;
+  height: 10.625rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 10px; /* Adjust margin for better spacing on smaller screens */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.iconind > .lab-icones {
+  font-size: 1.5rem;
+  transition: all 0.2s;
+}
+
+.iconind img {
+  transition: all 0.3s ease;
+}
+
+.iconind:hover img {
+  transform: scale(1.4); /* Enlarge the image */
+  fill: #005f8f;
+  opacity: 0.1;
+}
+
+.iconind::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+  background: linear-gradient(220.55deg, #005f8f 0%, #007f8f 100%);
+  scale: 1;
+  z-index: -1;
+  transition: all 300ms ease-out;
+}
+
+.iconind:hover::before {
+  scale: 0;
+}
+
+.iconind .hover-text {
+  position: absolute;
+  transform: translateY(-50%);
+  margin-top: 25px;
+  color: white;
+  font-size: 1.25rem; /* Adjust font size for better readability on smaller screens */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.iconind:hover .hover-text {
+  opacity: 1; /* Show text on hover */
+}
+
+@media (max-width: 1024px) {
+  .section-ind {
+    height: auto;
+    padding: 20px;
+  }
+
+  .section-ind h1 {
+    font-size: 2rem;
+  }
+
+  .iconind {
+    width: 8.75rem;
+    height: 8.75rem;
+  }
+
+  .iconind .hover-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-ind h1 {
+    font-size: 1.5rem;
+  }
+
+  .iconind {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+
+  .iconind .hover-text {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 10px 20px !important;
+  }
+
+  .section-ind { 
+    padding: 0 20px 20px 20px !important;
+    width: calc(100% - 40px) !important;
+    height: auto;
+  }
+
+  .section-ind h1 {
+    font-size: 1.25rem;
+  }
+
+  .iconind {
+    width: 6.25rem;
+    height: 6.25rem;
+  }
+
+  .iconind .hover-text {
+    font-size: 0.75rem;
+  }
+}

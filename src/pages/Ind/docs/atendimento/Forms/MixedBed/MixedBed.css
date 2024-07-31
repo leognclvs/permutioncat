@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap");
+
+input {
+  caret-color: blue;
+}
+
+.form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 2%;
+  border-radius: 20px;
+  box-sizing: border-box;
+  background: #001f3d;
+}
+
+.mixedbed {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.mixedbedtext {
+  margin-bottom: 2%;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1da1f2;
+  letter-spacing: 1px;
+}
+
+.mixed-input {
+  text-align: left;
+  columns: 2;
+}
+
+label,
+input,
+button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.midex {
+  position: relative;
+  caret-color: blue;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 50px;
+}
+
+.mix {
+    position: absolute;
+  right: 8%;
+  top: 55%;
+  transform: translateY(-70%);
+  color: #666;
+}

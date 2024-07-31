@@ -1,0 +1,131 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background: var(--secondary-background);
+    color: #FFF;
+    margin: 0 auto;
+    padding: 0px 80px;
+    border-bottom: 0.1px solid var(--border-color);
+}
+
+.wrap {
+    display:inline-flex;
+    list-style: none;
+  }
+  
+  .wrap .icone {
+    position: relative;
+    background: #001F3D;
+    border-radius: 50%;
+    padding: 15px;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .wrap .ferramenta {
+    position: absolute;
+    top: 0;
+    font-size: 20px;
+    background: #44AD34;
+    color: #44AD34;
+    padding: 5px 8px;
+    border-radius: 5px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .wrap .ferramenta::before {
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 8px;
+    background: #44AD34;
+    top: -3px;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .wrap .icone:hover .ferramenta {
+    top: 90px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  .wrap .icone:hover img,
+  .wrap .icone:hover .ferramenta {
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .whats {
+    --color: #44AD34;
+    height: 25px;
+  }
+
+    .icone:hover,
+    .icone:hover .ferramenta,
+    .icone:hover .ferramenta::before {
+  background: var(--color);
+  color: white;
+}
+
+/* Media query para telas menores que 1200px */
+@media (max-width: 1200px) {
+    header {
+        padding: 0px 60px;
+        height: 90px;
+    }
+}
+
+/* Media query para telas menores que 992px */
+@media (max-width: 992px) {
+    header {
+        padding: 0px 40px;
+        height: 80px;
+    }
+}
+
+/* Media query para telas menores que 768px */
+@media (max-width: 768px) {
+    header {
+        padding: 0px 20px;
+        height: 70px;
+    }
+}
+
+/* Media query para telas menores que 576px */
+@media (max-width: 576px) {
+    header {
+        padding: 0px 10px;
+        height: 60px;
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Media query para telas menores que 480px */
+@media (max-width: 480px) {
+    header {
+        height: auto;
+        padding: 10px;
+    }
+}
+
+button {
+    background-color: var(--secondary-background);
+    border: none;
+    cursor: pointer;
+}

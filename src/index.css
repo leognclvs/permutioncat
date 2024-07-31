@@ -1,0 +1,13 @@
+:root{
+  --primary-color: #FFF;
+  --primary-background: #000f1f;
+  --secondary-background: #001f3d;
+  --border-color: #363636;
+}
+
+body {
+  color: var(--primary-color);
+  background-color: var(--primary-background);
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}

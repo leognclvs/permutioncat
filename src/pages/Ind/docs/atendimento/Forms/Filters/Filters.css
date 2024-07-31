@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+
+input {
+  caret-color: blue;
+}
+
+.form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 2%;
+  border-radius: 20px;
+  box-sizing: border-box;
+  background: #001F3D;
+}
+
+.filter {
+  height: 100px;
+  width: 100px;
+  border-radius: 25%;
+  box-sizing: border-box;
+}
+
+.startext {
+  margin-bottom: 2%;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1DA1F2;
+  letter-spacing: 1px;
+}
+
+.gridfilter {
+  width: 33%;
+}
+
+label, input, button {
+  width: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input[type='text'] {
+  background: #ecf0f3;
+  margin-bottom: 3%;
+  padding: 2%;
+  width: 95%;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+  margin-bottom: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #9f9f9f;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #1e1e1e;
+  transition: 0.5s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #f1f1f1;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.text-slider {
+  margin: 3px 0 0 60px;
+}
+
+input[type="checkbox"] {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #464646;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-with-unit {
+  position: relative;
+  caret-color: blue;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 50px;
+}
+
+.unit-input {
+  display: flex;
+  align-items: center;
+}
+
+.unit {
+  position: absolute;
+  right: 10%;
+  top: 59%;
+  transform: translateY(-70%);
+  color: #666;
+}
+
+.paragrafo {
+  font-size: 13px;
+  transition: all 300ms ease-out;
+}
+
+.paragrafo:hover {
+  color: #32cd32;
+  font-size: 14px;
+}
+
+.form-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  opacity: 0;
+}
+
+.form-section.open {
+  max-height: 500px; /* Adjust as needed */
+  opacity: 1;
+}

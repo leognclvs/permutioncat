@@ -1,0 +1,94 @@
+.section-hosp { 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  justify-content: center;
+  align-items: center;
+}  
+
+.section-hosp h1 {
+  font-size: 40px;
+}
+
+.hosp-icones {
+  height: 100px;
+  display: flex;
+}
+
+.wraphosp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 100px;
+}
+
+.iconhosp {
+  text-decoration: none;
+  width: 10.625rem;
+  height: 10.625rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0 75px;
+  overflow: hidden; /* Para evitar que o conteúdo extrapole o limite do ícone */
+}
+
+.iconhosp > .lab-icones {
+  font-size: 1.5rem;
+  transition: all 0.2s;
+}
+
+.iconhosp img {
+  transition: all 0.3s ease;
+}
+
+.iconhosp:hover img {
+  transform: scale(1.4); /* Aumentar o tamanho da imagem */
+  fill: #005f8f;
+  opacity: 0.1;
+}
+
+.iconhosp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+  background: linear-gradient(220.55deg, #005f8f 0%, #007f8f 100%);
+  scale: 1;
+  z-index: -1;
+  transition: all 300ms ease-out;
+}
+
+.iconhosp:hover::before {
+  scale: 0;
+}
+
+.iconhosp .hover-text {
+  position: absolute;
+  transform: translateY(-50%);
+  margin-top: 25px;
+  color: white;
+  font-size: 20px;
+  opacity: 0;
+  transition: opacity 0.3 ease;
+  z-index: 1;
+}
+
+.iconhosp:hover .hover-text {
+  opacity: 1; /* Mostrar o texto ao passar o mouse */
+}
+
+@media (max-width: 600px) {
+  header {
+      padding: 10px 20px !important;
+  }
+
+  .section-hosp { 
+      padding: 0 40px 40px 40px !important;
+      width: calc(100% - 80px) !important;
+  }
+}

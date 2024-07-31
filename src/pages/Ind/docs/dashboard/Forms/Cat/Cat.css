@@ -1,0 +1,68 @@
+.cat-form {
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    box-sizing: border-box;
+    background: #001F3D;
+    padding: 2%;
+  }
+  
+  .cat-form::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .cat-form::-webkit-scrollbar-track {
+    background: #001F3D;
+  }
+  
+  .cat-form::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .cat-form::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  .equipcat {
+    width: 97.5%;
+  }
+  
+  .coluna {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .coluna > div {
+    margin-bottom: 10px;
+  }
+  
+  .startext {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input::placeholder {
+    text-align: right;
+  }
+  
+  .osmosis {
+    height: 100px;
+    width: 100px;
+    box-sizing: border-box;
+  }
+  .catinput {
+    display: block;
+    width: 97.5%;
+    height: 4.25vh;
+    padding: 1px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
