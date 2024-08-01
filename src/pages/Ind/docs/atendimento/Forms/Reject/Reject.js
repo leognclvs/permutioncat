@@ -1,101 +1,177 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import "./Reject.css";
-import Rejeito from '../../img/rejeito.svg';
-import axios from 'axios'; // Importar Axios
+import Rejeito from "../../img/rejeito.svg";
+import axios from "axios"; // Importar Axios
 
 function Reject() {
-    // Estados para armazenar os valores dos inputs
-    const [pressaoEntrada, setPressaoEntrada] = useState("");
-    const [pressaoAposCartucho, setPressaoAposCartucho] = useState("");
-    const [pressaoAntesMembrana, setPressaoAntesMembrana] = useState("");
-    const [pressaoAposMembrana, setPressaoAposMembrana] = useState("");
-    const [vazaoPermeado, setVazaoPermeado] = useState("");
-    const [vazaoRejeito, setVazaoRejeito] = useState("");
+  const [formData, setFormData] = useState({
+    cat_number: "",
+    cliente: "",
+    p_in: "",
+    p_pos_cart: "",
+    p_pre_memb: "",
+    p_pos_memb: "",
+    vazao_perm: "",
+    vazao_rej: "",
+  });
 
-    // Função para lidar com o envio do formulário
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const [availableCats, setAvailableCats] = useState([]);
 
-        const data = {
-            pressaoEntrada,
-            pressaoAposCartucho,
-            pressaoAntesMembrana,
-            pressaoAposMembrana,
-            vazaoPermeado,
-            vazaoRejeito
-        };
-
-        try {
-            const response = await axios.post("YOUR_API_ENDPOINT_HERE", data);
-            console.log("Dados enviados com sucesso:", response.data);
-            // Lidar com resposta positiva, como limpar o formulário ou mostrar uma mensagem de sucesso
-        } catch (error) {
-            console.error("Erro ao enviar dados:", error);
-            // Lidar com erros, como mostrar uma mensagem de erro para o usuário
-        }
+  useEffect(() => {
+    const fetchAvailableCats = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/catrejeito/");
+        setAvailableCats(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar CATs disponíveis:", error);
+      }
     };
 
-    return (
-        <div className='form'>
-            <div>
-                <img className='start' src={Rejeito} alt='Unidade de Recuperação de Rejeito' />
-            </div>
-            <div className='startext'>
-                Unidade de Recuperação de Rejeito
-            </div>
-            <form onSubmit={handleSubmit} className='inputs'>
-                <label htmlFor='pressaoEntrada'>Pressão de Entrada:</label>
-                <input
-                    type='text'
-                    id='pressaoEntrada'
-                    value={pressaoEntrada}
-                    onChange={(e) => setPressaoEntrada(e.target.value)}
-                    required
-                />
-                <label htmlFor='pressaoAposCartucho'>Pressão Após Cartucho:</label>
-                <input
-                    type='text'
-                    id='pressaoAposCartucho'
-                    value={pressaoAposCartucho}
-                    onChange={(e) => setPressaoAposCartucho(e.target.value)}
-                    required
-                />
-                <label htmlFor='pressaoAntesMembrana'>Pressão Antes da Membrana:</label>
-                <input
-                    type='text'
-                    id='pressaoAntesMembrana'
-                    value={pressaoAntesMembrana}
-                    onChange={(e) => setPressaoAntesMembrana(e.target.value)}
-                    required
-                />
-                <label htmlFor='pressaoAposMembrana'>Pressão Após Membrana:</label>
-                <input
-                    type='text'
-                    id='pressaoAposMembrana'
-                    value={pressaoAposMembrana}
-                    onChange={(e) => setPressaoAposMembrana(e.target.value)}
-                    required
-                />
-                <label htmlFor='vazaoPermeado'>Vazão do Permeado:</label>
-                <input
-                    type='text'
-                    id='vazaoPermeado'
-                    value={vazaoPermeado}
-                    onChange={(e) => setVazaoPermeado(e.target.value)}
-                    required
-                />
-                <label htmlFor='vazaoRejeito'>Vazão do Rejeito:</label>
-                <input
-                    type='text'
-                    id='vazaoRejeito'
-                    value={vazaoRejeito}
-                    onChange={(e) => setVazaoRejeito(e.target.value)}
-                    required
-                />
-                <button type='submit' className='submit-button'>Enviar</button>
-            </form>
+    fetchAvailableCats();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    if (name === "cat_number") {
+      fetchClientData(value);
+    }
+  };
+
+  const fetchClientData = async (catNumber) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/info/${catNumber}/`
+      );
+      setFormData((prevState) => ({
+        ...prevState,
+        cliente: response.data.cliente,
+      }));
+    } catch (error) {
+      console.error("Erro ao carregar informações do cliente:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://127.0.0.1:8000/recup_rejeito/", formData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
+    }
+  };
+
+  return (
+    <div className="form">
+      <div>
+        <img
+          className="start"
+          src={Rejeito}
+          alt="Unidade de Recuperação de Rejeito"
+        />
+      </div>
+      <div className="startext">Unidade de Recuperação de Rejeito</div>
+      <form onSubmit={handleSubmit} className="inputs">
+        <div className="reject">
+          <label>Número da CAT:</label>
+          <select
+            name="cat_number"
+            value={formData.cat_number}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione</option>
+            {availableCats.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
         </div>
-    )
+        <div className="reject">
+          <label>Cliente:</label>
+          <input type="text" name="cliente" value={formData.cliente} readOnly />
+        </div>
+        <div className="reject">
+          <label htmlFor="p_in">Pressão de Entrada:</label>
+          <input
+            type="text"
+            id="p_in"
+            name="p_in"
+            value={formData.p_in}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="reject">
+          <label htmlFor="p_pos_cart">Pressão Após Cartucho:</label>
+          <input
+            type="text"
+            id="p_pos_cart"
+            name="p_pos_cart"
+            value={formData.p_pos_cart}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="reject">
+          <label htmlFor="p_pre_memb">Pressão Antes da Membrana:</label>
+          <input
+            type="text"
+            id="p_pre_memb"
+            name="p_pre_memb"
+            value={formData.p_pre_memb}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="reject">
+          <label htmlFor="p_pos_memb">Pressão Após Membrana:</label>
+          <input
+            type="text"
+            id="p_pos_memb"
+            name="p_pos_memb"
+            value={formData.p_pos_memb}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="reject">
+          <label htmlFor="vazao_perm">Vazão do Permeado:</label>
+          <input
+            type="text"
+            id="vazao_perm"
+            name="vazao_perm"
+            value={formData.vazao_perm}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="reject">
+          <label htmlFor="vazao_rej">Vazão do Rejeito:</label>
+          <input
+            type="text"
+            id="vazao_rej"
+            name="vazao_rej"
+            value={formData.vazao_rej}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </form>
+      <div>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default Reject;

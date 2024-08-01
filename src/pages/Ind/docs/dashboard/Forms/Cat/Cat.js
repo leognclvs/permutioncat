@@ -92,82 +92,6 @@ function Cat() {
     }
   }, [selectedCat]);
 
-  const markAsPrinted = () => {
-    axios.post(`/api/cats/${selectedCat}/printed`).then(response => {
-      setCats(cats.filter(cat => cat.id !== selectedCat));
-      setSelectedCat("");
-      setFormData({
-        data: '',
-        cat: '',
-        codigoCliente: '',
-        cliente: '',
-        codigoEquipamento: '',
-        equipamento: '',
-        contatoCliente: '',
-        cep: '',
-        endereco: '',
-        numero: '',
-        cidade: '',
-        estado: '',
-        responsavelPermution: '',
-        tecnicoResponsavel: '',
-        preReq: '',
-        matInt: '',
-        preFlu: '',
-        preTrat: '',
-        valv: '',
-        locMemb: '',
-        alarm: '',
-        insCoe: '',
-        sisSeg: '',
-        agua: '',
-        materialDisponibilizado: '',
-        servicoExecutado: '',
-        sistemaSeguranca: '',
-        equipamentoOperando: '',
-        leituraCoerente: '',
-        amostraAgua: '',
-        pressaoAlimentacao: '',
-        funcionamentoCorreto: '',
-        frcl_areia: '',
-        tr_areia: '',
-        te_areia: '',
-        frcl_carvao: '',
-        tr_carvao: '',
-        te_carvao: '',
-        frcl_abrandador: '',
-        tr_abrandador: '',
-        te_abrandador: '',
-        tp_pre_enx: '',
-        tp_enx: '',
-        tp_rep: '',
-        produto_dosado1: '',
-        concentracao_solucao1: '',
-        volume_solucao1: '',
-        aferir_dosadora: '',
-        produto_dosado2: '',
-        concentracao_solucao2: '',
-        volume_solucao2: '',
-        padrao_utilizado: '',
-        info_padrao: '',
-        frcl_cat: '',
-        tr_cat: '',
-        te_cat: '',
-        pre_enx_cat: '',
-        enx_cat: '',
-        frcl_ani: '',
-        tr_ani: '',
-        te_ani: '',
-        pre_enx_ani: '',
-        enx_ani: '',
-        cond_final: '',
-        temp: '',
-        num_serie: '',
-        enx_temp: ''
-      });
-    });
-  };
-
   return (
     <div className="osmose-form">
       <div>
@@ -186,7 +110,6 @@ function Cat() {
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
-        <button onClick={markAsPrinted}>Já impresso</button>
       </div>
       <div className="form-section">
         <h2>Instalação, Start-up e Garantia</h2>

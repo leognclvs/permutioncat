@@ -31,7 +31,13 @@ input {
 
 .ozone-inputs {
   text-align: left;
-  columns: 3;
+  columns: 1;
+}
+
+.ozone-field {
+  padding: 0.7%;
+  margin-bottom: 2%;
+  width: 80%;
 }
 
 label, input, button {

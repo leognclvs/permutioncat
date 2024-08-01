@@ -27,15 +27,6 @@ function Treinamento() {
         fetchData();
     }, [page]);
 
-    const handleSubmit = async () => {
-        try {
-            await axios.post(`API_URL/page${page}`, formData); // Substitua 'API_URL' pela sua URL real
-            alert('Dados salvos com sucesso!');
-        } catch (error) {
-            alert('Erro ao salvar dados');
-        }
-    };
-
     return (
         <Flex>
             <Box className='sidebar' style={{ width: '20%' }}>
@@ -43,7 +34,7 @@ function Treinamento() {
                     <button className='item' onClick={() => setPage(1)}>Treinamento</button>
                 </div>
             </Box>
-            <Box style={{ width: '60%' }}>
+            <Box style={{ width: '70%' }}>
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error.message}</p>}
                 {page === 1 && (
@@ -51,11 +42,6 @@ function Treinamento() {
                         <Treino formData={formData} setFormData={setFormData} />
                     </form>
                 )}
-            </Box>
-            <Box className='sidebar' style={{ width: '20%' }}>
-                <div className='sidebar-items'>
-                    <button className='save' onClick={handleSubmit}>Salvar</button>
-                </div>
             </Box>
         </Flex>
     );

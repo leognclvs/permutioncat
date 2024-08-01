@@ -1,39 +1,72 @@
 import "./Conductivity.css";
 import Condutivimetro from "../../img/condutivimetro.svg";
-import React, { useState } from "react";
-import axios from "axios";  // Importando Axios
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Conductivity() {
-  const [modelo, setModelo] = useState("");
-  const [constante, setConstante] = useState("");
-  const [loteSolucao, setLoteSolucao] = useState("");
-  const [condutividadeSolucao, setCondutividadeSolucao] = useState("");
-  const [temperaturaSolucao, setTemperaturaSolucao] = useState("");
-  const [marcaSolucao, setMarcaSolucao] = useState("");
-  const [condutividadeAferida, setCondutividadeAferida] = useState("");
-  const [temperaturaAferida, setTemperaturaAferida] = useState("");
+  const [formData, setFormData] = useState({
+    cat_number: "",
+    cliente: "",
+    mod_cond: "",
+    const: "",
+    n_lote: "",
+    cond_std: "",
+    temp_std: "",
+    marca: "",
+    cond_aferida: "",
+    temp_aferida: "",
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const [availableCats, setAvailableCats] = useState([]);
 
-    const data = {
-      modelo,
-      constante,
-      loteSolucao,
-      condutividadeSolucao,
-      temperaturaSolucao,
-      marcaSolucao,
-      condutividadeAferida,
-      temperaturaAferida,
+  useEffect(() => {
+    const fetchAvailableCats = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/catafericao/");
+        setAvailableCats(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar CATs disponíveis:", error);
+      }
     };
 
+    fetchAvailableCats();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    // Se o campo alterado for "cat_number", busque as informações do cliente
+    if (name === "cat_number") {
+      fetchClientData(value);
+    }
+  };
+
+  const fetchClientData = async (catNumber) => {
     try {
-      const response = await axios.post("YOUR_API_ENDPOINT_HERE", data);
-      console.log("Dados enviados com sucesso:", response.data);
-      // Lidar com resposta positiva, como limpar o formulário ou mostrar uma mensagem de sucesso
+      const response = await axios.get(
+        `http://127.0.0.1:8000/info/${catNumber}/`
+      );
+      setFormData((prevState) => ({
+        ...prevState,
+        cliente: response.data.cliente,
+      }));
     } catch (error) {
-      console.error("Erro ao enviar dados:", error);
-      // Lidar com erros, como mostrar uma mensagem de erro para o usuário
+      console.error("Erro ao carregar informações do cliente:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://127.0.0.1:8000/afericao/", formData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
     }
   };
 
@@ -43,88 +76,113 @@ function Conductivity() {
         <img className="conductivity" src={Condutivimetro} alt="Aferição Condutivímetro" />
       </div>
       <div className="conductivitytext">Aferição do Condutivímetro</div>
-      <form onSubmit={handleSubmit} className="conduct-input">
+      <form className="conduct-input">
         <div className="conduct">
-          <label htmlFor="modelo-condutivimetro">Modelo do Condutivímetro:</label>
+          <label>Número da CAT:</label>
+          <select
+            name="cat_number"
+            value={formData.cat_number}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione</option>
+            {availableCats.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="conduct">
+          <label>Cliente:</label>
+          <input type="text" name="cliente" value={formData.cliente} readOnly />
+        </div>
+        <div className="conduct">
+          <label htmlFor="mod_cond">Modelo do Condutivímetro:</label>
           <input
             type="text"
-            id="modelo-condutivimetro"
-            name="modelo-condutivimetro"
-            value={modelo}
-            onChange={(e) => setModelo(e.target.value)}
+            id="mod_cond"
+            name="mod_cond"
+            value={formData.mod_cond}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="constante">Constante:</label>
+          <label htmlFor="const">Constante:</label>
           <input
             type="text"
-            id="constante"
-            name="constante"
-            value={constante}
-            onChange={(e) => setConstante(e.target.value)}
+            id="const"
+            name="const"
+            value={formData.const}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="lote-solucao">n° do Lote da Solução Padrão de Condutividade:</label>
+          <label htmlFor="n_lote">n° do Lote da Solução Padrão de Condutividade:</label>
           <input
             type="text"
-            id="lote-solucao"
-            name="lote-solucao"
-            value={loteSolucao}
-            onChange={(e) => setLoteSolucao(e.target.value)}
+            id="n_lote"
+            name="n_lote"
+            value={formData.n_lote}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="condutividade-solucao">Condutividade da Solução Padrão:</label>
+          <label htmlFor="cond_std">Condutividade da Solução Padrão:</label>
           <input
             type="text"
-            id="condutividade-solucao"
-            name="condutividade-solucao"
-            value={condutividadeSolucao}
-            onChange={(e) => setCondutividadeSolucao(e.target.value)}
+            id="cond_std"
+            name="cond_std"
+            value={formData.cond_std}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="temperatura-solucao">Temperatura da Solução Padrão:</label>
+          <label htmlFor="temp_std">Temperatura da Solução Padrão:</label>
           <input
             type="text"
-            id="temperatura-solucao"
-            name="temperatura-solucao"
-            value={temperaturaSolucao}
-            onChange={(e) => setTemperaturaSolucao(e.target.value)}
+            id="temp_std"
+            name="temp_std"
+            value={formData.temp_std}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="marca-solucao">Marca da Solução Padrão de Condutividade:</label>
+          <label htmlFor="marca">Marca da Solução Padrão de Condutividade:</label>
           <input
             type="text"
-            id="marca-solucao"
-            name="marca-solucao"
-            value={marcaSolucao}
-            onChange={(e) => setMarcaSolucao(e.target.value)}
+            id="marca"
+            name="marca"
+            value={formData.marca}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="condutividade-aferida">Condutividade Aferida:</label>
+          <label htmlFor="cond_aferida">Condutividade Aferida:</label>
           <input
             type="text"
-            id="condutividade-aferida"
-            name="condutividade-aferida"
-            value={condutividadeAferida}
-            onChange={(e) => setCondutividadeAferida(e.target.value)}
+            id="cond_aferida"
+            name="cond_aferida"
+            value={formData.cond_aferida}
+            onChange={handleChange}
           />
         </div>
         <div className="conduct">
-          <label htmlFor="temperatura-aferida">Temperatura Aferida:</label>
+          <label htmlFor="temp_aferida">Temperatura Aferida:</label>
           <input
             type="text"
-            id="temperatura-aferida"
-            name="temperatura-aferida"
-            value={temperaturaAferida}
-            onChange={(e) => setTemperaturaAferida(e.target.value)}
+            id="temp_aferida"
+            name="temp_aferida"
+            value={formData.temp_aferida}
+            onChange={handleChange}
           />
         </div>
       </form>
+      <div>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
+      </div>
     </div>
   );
 }

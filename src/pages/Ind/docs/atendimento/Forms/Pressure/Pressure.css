@@ -60,7 +60,7 @@ select {
   box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
 }
 
-.unidade {
+.unit {
   position: absolute;
   right: 7%;
   top: 57%;

@@ -1,245 +1,355 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Analysis.css";
 import Analise from "../../../../img/análise.svg";
 
 function Analysis() {
-  const [forms, setForms] = useState([{
-    tr_areia: "",
-    condutividade: "",
-    ph: "",
-    temperatura: "",
-    cloroLivre: "",
-    outroParametro1: "",
-    outroParametro2: "",
-    durezaTotal: "",
-    ferro: "",
-    siliceSoluvel: "",
-    cor: "",
-    turbidez: "",
-    outroParametro3: "",
-    outroParametro4: ""
-  }]);
+  const [formData, setFormData] = useState([
+    {
+      amostra1: "",
+      cond1: "",
+      ph1: "",
+      temp1: "",
+      cloro1: "",
+      dureza1: "",
+      ferro1: "",
+      silica1: "",
+      cor1: "",
+      turbidez1: "",
+      outro_par_a1: "",
+      outro_par_b1: "",
+      outro_par_c1: "",
+      outro_par_d1: "",
+    },
+  ]);
+
+  const [catNumber, setCatNumber] = useState("");
+  const [cliente, setCliente] = useState("");
+  const [numAnalise, setNumAnalise] = useState(1);
+  const [availableCats, setAvailableCats] = useState([]);
 
   useEffect(() => {
-    // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-    axios.get('YOUR_API_ENDPOINT')
-      .then(response => {
-        // Initialize forms if needed
-        // setForms(response.data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the data!", error);
-      });
+    const fetchAvailableCats = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/catagua/");
+        setAvailableCats(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar CATs disponíveis:", error);
+      }
+    };
+
+    fetchAvailableCats();
   }, []);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    const newForms = [...forms];
-    newForms[index] = {
-      ...newForms[index],
-      [name]: value
-    };
-    setForms(newForms);
+    setFormData((prevState) => {
+      const newData = [...prevState];
+      newData[index] = {
+        ...newData[index],
+        [name]: value,
+      };
+      return newData;
+    });
   };
 
-  const addForm = () => {
-    setForms([...forms, {
-      tr_areia: "",
-      condutividade: "",
-      ph: "",
-      temperatura: "",
-      cloroLivre: "",
-      outroParametro1: "",
-      outroParametro2: "",
-      durezaTotal: "",
-      ferro: "",
-      siliceSoluvel: "",
-      cor: "",
-      turbidez: "",
-      outroParametro3: "",
-      outroParametro4: ""
-    }]);
+  const handleCatNumberChange = async (e) => {
+    const { value } = e.target;
+    setCatNumber(value);
+    if (value) {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/info/${value}/`
+        );
+        setCliente(response.data.cliente);
+      } catch (error) {
+        console.error("Erro ao carregar informações do cliente:", error);
+      }
+    } else {
+      setCliente("");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const mergedFormData = formData.reduce(
+      (acc, curr) => {
+        return { ...acc, ...curr };
+      },
+      { cat_number: catNumber, cliente }
+    );
+
+    try {
+      await axios.post("http://127.0.0.1:8000/analise_agua/", mergedFormData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
+    }
+  };
+
+  const addAnalise = () => {
+    if (numAnalise < 10) {
+      setNumAnalise(numAnalise + 1);
+      setFormData((prevState) => [
+        ...prevState,
+        {
+          [`amostra${numAnalise + 1}`]: "",
+          [`cond${numAnalise + 1}`]: "",
+          [`ph${numAnalise + 1}`]: "",
+          [`temp${numAnalise + 1}`]: "",
+          [`cloro${numAnalise + 1}`]: "",
+          [`dureza${numAnalise + 1}`]: "",
+          [`ferro${numAnalise + 1}`]: "",
+          [`silica${numAnalise + 1}`]: "",
+          [`cor${numAnalise + 1}`]: "",
+          [`turbidez${numAnalise + 1}`]: "",
+          [`outro_par_a${numAnalise + 1}`]: "",
+          [`outro_par_b${numAnalise + 1}`]: "",
+          [`outro_par_c${numAnalise + 1}`]: "",
+          [`outro_par_d${numAnalise + 1}`]: "",
+        },
+      ]);
+    }
   };
 
   return (
     <div className="form-container">
       <div>
-        <img className="start" src={Analise} alt="" />
+        <img className="start" src={Analise} alt="Análise Laboratorial" />
       </div>
-      <div className="savetext">Análise Laboratorial
-      <button className='savelab' type="button" onClick={addForm}>Adicionar Novo Formulário</button>
-      </div>
-      <div className="forms-wrapper">
-        {forms.map((form, index) => (
-          <div key={index} className="form">
+      <div className="savetext">Análise Laboratorial</div>
+      <form className="form">
+        <div className="inputs">
+          <label>Número da CAT:</label>
+          <select
+            name="cat_number"
+            value={catNumber}
+            onChange={handleCatNumberChange}
+            required
+            style={{ display: "block", marginBottom: "10px" }}
+          >
+            <option value="">Selecione</option>
+            {availableCats.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+
+          <label>Cliente:</label>
+          <input
+            type="text"
+            name="cliente"
+            value={cliente}
+            readOnly
+            style={{ display: "block", marginBottom: "10px" }}
+          />
+        </div>
+      </form>
+      {formData.map((data, i) => (
+        <form key={i} className="forms-wrapper">
+          <div className="form">
             <div className="inputs">
               <label>Tipo de Amostra:</label>
+              <input
+                type="text"
+                name={`amostra${i + 1}`}
+                value={data[`amostra${i + 1}`]}
+                onChange={(e) => handleChange(e, i)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
+
+              <label>Condutividade:</label>
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name="tr_areia"
-                  value={form.tr_areia}
-                  onChange={(e) => handleChange(e, index)}
+                  name={`cond${i + 1}`}
+                  value={data[`cond${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
                 />
-              </div>
-
-              <div className="input-with-unit">
-                <label>Condutividade:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="condutividade"
-                    value={form.condutividade}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">µS/cm</span>
-                </div>
+                <span className="unit">µS/cm</span>
               </div>
 
               <label>pH:</label>
+              <input
+                type="text"
+                name={`ph${i + 1}`}
+                value={data[`ph${i + 1}`]}
+                onChange={(e) => handleChange(e, i)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
+
+              <label>Temperatura:</label>
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name="ph"
-                  value={form.ph}
-                  onChange={(e) => handleChange(e, index)}
+                  name={`temp${i + 1}`}
+                  value={data[`temp${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
                 />
+                <span className="unit">°C</span>
               </div>
 
-              <div className="input-with-unit">
-                <label>Temperatura:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="temperatura"
-                    value={form.temperatura}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">°C</span>
-                </div>
-              </div>
-
-              <div className="input-with-unit">
-                <label>Cloro Livre:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="cloroLivre"
-                    value={form.cloroLivre}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">ppm</span>
-                </div>
-              </div>
-
-              <label>Outro Parâmetro:</label>
+              <label>Cloro Livre:</label>
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name="outroParametro1"
-                  value={form.outroParametro1}
-                  onChange={(e) => handleChange(e, index)}
+                  name={`cloro${i + 1}`}
+                  value={data[`cloro${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
                 />
+                <span className="unit">ppm</span>
               </div>
 
-              <label>Outro Parâmetro:</label>
+              <label>Dureza Total:</label>
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name="outroParametro2"
-                  value={form.outroParametro2}
-                  onChange={(e) => handleChange(e, index)}
+                  name={`dureza${i + 1}`}
+                  value={data[`dureza${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
                 />
+                <span className="unit">
+                  ppm CaCO<sub>3</sub>
+                </span>
               </div>
 
-              <div className="input-with-unit">
-                <label>Dureza Total:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="durezaTotal"
-                    value={form.durezaTotal}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">ppm CaCo³</span>
-                </div>
-              </div>
-
-              <div className="input-with-unit">
-                <label>Ferro:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="ferro"
-                    value={form.ferro}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">ppm</span>
-                </div>
-              </div>
-
-              <div className="input-with-unit">
-                <label>Sílica Solúvel:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="siliceSoluvel"
-                    value={form.siliceSoluvel}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">ppm</span>
-                </div>
-              </div>
-
-              <div className="input-with-unit">
-                <label>Cor:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="cor"
-                    value={form.cor}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">°H</span>
-                </div>
-              </div>
-
-              <div className="input-with-unit">
-                <label>Turbidez:</label>
-                <div className="unit-input">
-                  <input
-                    type="text"
-                    name="turbidez"
-                    value={form.turbidez}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                  <span className="unit">NTU</span>
-                </div>
-              </div>
-
-              <label>Outro Parâmetro:</label>
+              <label>Ferro:</label>
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name="outroParametro3"
-                  value={form.outroParametro3}
-                  onChange={(e) => handleChange(e, index)}
+                  name={`ferro${i + 1}`}
+                  value={data[`ferro${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
                 />
+                <span className="unit">ppm</span>
               </div>
 
-              <label>Outro Parâmetro:</label>
+              <label>Sílica Solúvel:</label>
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name="outroParametro4"
-                  value={form.outroParametro4}
-                  onChange={(e) => handleChange(e, index)}
+                  name={`silica${i + 1}`}
+                  value={data[`silica${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
                 />
+                <span className="unit">ppm</span>
               </div>
+
+              <label>Cor:</label>
+              <div className="input-with-unit">
+                <input
+                  type="text"
+                  name={`cor${i + 1}`}
+                  value={data[`cor${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
+                />
+                <span className="unit">UH</span>
+              </div>
+
+              <label>Turbidez:</label>
+              <div className="input-with-unit">
+                <input
+                  type="text"
+                  name={`turbidez${i + 1}`}
+                  value={data[`turbidez${i + 1}`]}
+                  onChange={(e) => handleChange(e, i)}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(100% - 50px)",
+                    marginBottom: "10px",
+                  }}
+                />
+                <span className="unit">NTU</span>
+              </div>
+
+              <label>Outro Parâmetro (A):</label>
+              <input
+                type="text"
+                name={`outro_par_a${i + 1}`}
+                value={data[`outro_par_a${i + 1}`]}
+                onChange={(e) => handleChange(e, i)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
+
+              <label>Outro Parâmetro (B):</label>
+              <input
+                type="text"
+                name={`outro_par_b${i + 1}`}
+                value={data[`outro_par_b${i + 1}`]}
+                onChange={(e) => handleChange(e, i)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
+
+              <label>Outro Parâmetro (C):</label>
+              <input
+                type="text"
+                name={`outro_par_c${i + 1}`}
+                value={data[`outro_par_c${i + 1}`]}
+                onChange={(e) => handleChange(e, i)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
+
+              <label>Outro Parâmetro (D):</label>
+              <input
+                type="text"
+                name={`outro_par_d${i + 1}`}
+                value={data[`outro_par_d${i + 1}`]}
+                onChange={(e) => handleChange(e, i)}
+                style={{ display: "block", marginBottom: "10px" }}
+              />
             </div>
           </div>
-        ))}
+        </form>
+      ))}
+      <div style={{ display: "flex", marginLeft: "2%", marginBottom: "2%" }}>
+        <button
+          className="saveind"
+          style={{ marginRight: "1%" }}
+          type="button"
+          onClick={addAnalise}
+        >
+          Adicionar Análise
+        </button>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
       </div>
     </div>
   );

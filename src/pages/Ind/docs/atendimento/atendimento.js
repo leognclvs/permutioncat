@@ -40,15 +40,6 @@ function Atendimento() {
         fetchData();
     }, [page]);
 
-    const handleSubmit = async () => {
-        try {
-            await axios.post(`API_URL/page${page}`, formData); // Substitua 'API_URL' pela sua URL real
-            alert('Dados salvos com sucesso!');
-        } catch (error) {
-            alert('Erro ao salvar dados');
-        }
-    };
-
     return (
         <Flex>
             <Box className='sidebar' style={{ width: '20%' }}>
@@ -67,7 +58,7 @@ function Atendimento() {
                     <button className='item' onClick={() => setPage(12)}>Unidade de Recuperação de Rejeito</button>
                 </div>
             </Box>
-            <Box style={{ width: '75%' }}>
+            <Box style={{ width: '70%' }}>
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error.message}</p>}
                 {page === 1 && (
@@ -130,9 +121,6 @@ function Atendimento() {
                         <Reject formData={formData} setFormData={setFormData} />
                     </form>
                 )}
-                <div className='sidebar-items'>
-                    <button className='saveind' onClick={handleSubmit}>Salvar</button>
-                </div>
             </Box>
         </Flex>
     );

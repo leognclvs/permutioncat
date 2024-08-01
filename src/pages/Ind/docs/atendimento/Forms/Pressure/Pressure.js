@@ -1,39 +1,92 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Pressure.css';
-import Manometro from '../../img/manometro.svg';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Pressure.css";
+import Manometro from "../../img/manometro.svg";
 
 function Pressure() {
   const [formData, setFormData] = useState({
-    pressaoAlimentacao: '',
-    funcionamentoCorreto: ''
+    cat_number: "",
+    cliente: "",
+    pressaoAlimentacao: "",
+    funcionamentoCorreto: ""
   });
 
+  const [availableCats, setAvailableCats] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('https://sua-api.com/pressure-data');
-        setFormData(response.data);
+        const response = await axios.get("http://127.0.0.1:8000/catpress/");
+        setAvailableCats(response.data);
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+        console.error("Erro ao carregar CATs disponíveis:", error);
       }
     };
 
-    fetchData();
+    fetchAvailableCats();
   }, []);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    // Se o campo alterado for "cat_number", busque as informações do cliente
+    if (name === "cat_number") {
+      fetchClientData(value);
+    }
+  };
+
+  const fetchClientData = async (catNumber) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/info/${catNumber}/`);
+      setFormData((prevState) => ({
+        ...prevState,
+        cliente: response.data.cliente,
+      }));
+    } catch (error) {
+      console.error("Erro ao carregar informações do cliente:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://127.0.0.1:8000/pressurizador/", formData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
+    }
   };
 
   return (
     <div className="form">
-      <div><img className="pressure" src={Manometro} alt="manometro" /></div>
-      <div className="pressuretext">Serviços e Garantia</div>
+      <div>
+        <img className="pressure" src={Manometro} alt="manometro" />
+      </div>
+      <div className="pressuretext">Sistema Pressurizador</div>
       <div className="inputs">
+        <label>Número da CAT:</label>
+        <select
+          name="cat_number"
+          value={formData.cat_number}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecione</option>
+          {availableCats.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+
+        <label>Cliente:</label>
+        <input type="text" name="cliente" value={formData.cliente} readOnly />
+
         <div className="input-with-unit">
           <label>Pressão de Alimentação (Modo Filtrando):</label>
           <div className="unit-input">
@@ -43,7 +96,7 @@ function Pressure() {
               value={formData.pressaoAlimentacao}
               onChange={handleChange}
             />
-            <span className="unidade">kgf/cm²</span>
+            <span className="unit">kgf/cm²</span>
           </div>
         </div>
 
@@ -59,6 +112,11 @@ function Pressure() {
           <option value="nao">Não</option>
           <option value="na">N/A</option>
         </select>
+      </div>
+      <div>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
       </div>
     </div>
   );

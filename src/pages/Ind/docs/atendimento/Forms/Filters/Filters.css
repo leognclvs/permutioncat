@@ -30,7 +30,7 @@ input {
 }
 
 .gridfilter {
-  width: 33%;
+  width: 95%;
 }
 
 label, input, button {
@@ -144,8 +144,18 @@ input[type="checkbox"] {
 }
 
 .paragrafo:hover {
-  color: #32cd32;
   font-size: 14px;
+  color: #32cd32;
+}
+
+.texto {
+  font-size: 20px;
+  transition: all 300ms ease-out;
+}
+
+.texto:hover {
+  color: #32cd32;
+  font-size: 22px;
 }
 
 .form-section {

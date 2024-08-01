@@ -6,185 +6,232 @@ import Flex from "../../../../../../components/Flex";
 
 function Desmineralizer() {
   const [formData, setFormData] = useState({
+    cat_number: "",
+    cliente: "",
     frcl_cat: "",
     tr_cat: "",
+    ts_cat: "",
+    tp_cat: "",
     te_cat: "",
     pre_enx_cat: "",
     enx_cat: "",
     frcl_ani: "",
     tr_ani: "",
-    te_ani: "",
-    pre_enx_ani: "",
+    ts_ani: "",
+    tp_ani: "",
     enx_ani: "",
-    cond_final: "",
+    cond_fin: "",
     temp: "",
-    num_serie: "",
-    enx_temp: ""
+    ser_cond: "",
+    constante: ""
   });
 
+  const [availableCats, setAvailableCats] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('https://sua-api.com/desmineralizer-data');
-        setFormData(response.data);
+        const response = await axios.get("http://127.0.0.1:8000/catdesmi/");
+        setAvailableCats(response.data);
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+        console.error("Erro ao carregar CATs disponíveis:", error);
       }
     };
 
-    fetchData();
+    fetchAvailableCats();
   }, []);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    if (name === "cat_number") {
+      fetchClientData(value);
+    }
+  };
+
+  const fetchClientData = async (catNumber) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/info/${catNumber}/`);
+      setFormData((prevState) => ({
+        ...prevState,
+        cliente: response.data.cliente,
+      }));
+    } catch (error) {
+      console.error("Erro ao carregar informações do cliente:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://127.0.0.1:8000/desmi/", formData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
+    }
   };
 
   return (
-    <div className="desmi-form">
+    <form className="desmi-form" onSubmit={handleSubmit}>
       <div>
         <img className="desmineralizer" src={Desmineralizador} alt="desmineralizador" />
       </div>
-      <div className="startext">Sistema Desmineralizador</div>
+      <div className="servicestext">Sistema Desmineralizador</div>
       <Flex>
         <div className="griddesmi">
-          <div>
-            <label>Frequência/Ciclo - Catiônica:</label>
-            <input
-              type="text"
-              name="frcl_cat"
-              value={formData.frcl_cat}
-              onChange={handleChange}
-            />
+          <label>Número da CAT:</label>
+          <select
+            name="cat_number"
+            value={formData.cat_number}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione</option>
+            {availableCats.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
 
-            <div className="input-desmi">
-              <label>Tempo de Retrolavagem:</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="tr_cat"
-                  value={formData.tr_cat}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <label>Frequência/Ciclo - Catiônica:</label>
+          <input
+            type="text"
+            name="frcl_cat"
+            value={formData.frcl_cat}
+            onChange={handleChange}
+          />
+
+          <div className="input-desmi">
+            <label>Tempo de Retrolavagem:</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="tr_cat"
+                value={formData.tr_cat}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
+          </div>
 
-            <div className="input-desmi">
-              <label>Tempo de Sucção:</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="te_cat"
-                  value={formData.te_cat}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Sucção:</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="te_cat"
+                value={formData.te_cat}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
+          </div>
 
-            <div className="input-desmi">
-              <label>Tempo de Pré-Enxágue (somente DG 40.000):</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="pre_enx_cat"
-                  value={formData.pre_enx_cat}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Pré-Enxágue (somente DG 40.000):</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="pre_enx_cat"
+                value={formData.pre_enx_cat}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
+          </div>
 
-            <div className="input-desmi">
-              <label>Tempo de Enxágue:</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="enx_cat"
-                  value={formData.enx_cat}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Enxágue:</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="enx_cat"
+                value={formData.enx_cat}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
           </div>
         </div>
         <div className="griddesmi">
-          <div>
-            <label>Frequência/Ciclo - Aniônica:</label>
-            <input
-              type="text"
-              name="frcl_ani"
-              value={formData.frcl_ani}
-              onChange={handleChange}
-            />
+        <label>Cliente:</label>
+        <input type="text" name="cliente" value={formData.cliente} readOnly />
+          <label>Frequência/Ciclo - Aniônica:</label>
+          <input
+            type="text"
+            name="frcl_ani"
+            value={formData.frcl_ani}
+            onChange={handleChange}
+          />
 
-            <div className="input-desmi">
-              <label>Tempo de Retrolavagem:</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="tr_ani"
-                  value={formData.tr_ani}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Retrolavagem:</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="tr_ani"
+                value={formData.tr_ani}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
+          </div>
 
-            <div className="input-desmi">
-              <label>Tempo de Sucção:</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="te_ani"
-                  value={formData.te_ani}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Sucção:</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="ts_ani"
+                value={formData.ts_ani}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
+          </div>
 
-            <div className="input-desmi">
-              <label>Tempo de Pré-Enxágue (somente DG 40.000):</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="pre_enx_ani"
-                  value={formData.pre_enx_ani}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Pré-Enxágue (somente DG 40.000):</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="tp_ani"
+                value={formData.tp_ani}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
+          </div>
 
-            <div className="input-desmi">
-              <label>Tempo de Enxágue:</label>
-              <div className="desmi-input">
-                <input
-                  type="text"
-                  name="enx_ani"
-                  value={formData.enx_ani}
-                  onChange={handleChange}
-                />
-                <span className="desmi">Minutos</span>
-              </div>
+          <div className="input-desmi">
+            <label>Tempo de Enxágue:</label>
+            <div className="desmi-input">
+              <input
+                type="text"
+                name="enx_ani"
+                value={formData.enx_ani}
+                onChange={handleChange}
+              />
+              <span className="desmi">Minutos</span>
             </div>
           </div>
         </div>
       </Flex>
-      <p style={{fontSize: '7px'}}>__________________________________________________________________________________________________________________________________________</p>
+      <p style={{ fontSize: '7px' }}>__________________________________________________________________________________________________________________________________________</p>
       <Flex>
         <div className="all-desmi">
           <label>Condutividade Final:</label>
           <div className="all-input">
             <input
               type="text"
-              name="cond_final"
-              value={formData.cond_final}
+              name="cond_fin"
+              value={formData.cond_fin}
               onChange={handleChange}
             />
             <span className="all">µS/cm</span>
@@ -204,21 +251,26 @@ function Desmineralizer() {
           <label>N° de Série do Condutivímetro:</label>
           <input
             type="text"
-              name="num_serie"
-              value={formData.num_serie}
-              onChange={handleChange}
+            name="ser_cond"
+            value={formData.ser_cond}
+            onChange={handleChange}
           />
-          <label>Tempo de Enxágue:</label>
+          <label>Constante:</label>
           <input
             type="text"
-            name="enx_temp"
-            value={formData.enx_temp}
+            name="constante"
+            value={formData.constante}
             onChange={handleChange}
           />
         </div>
       </Flex>
       <p className="paragrafo">Nota²: Usar Água Descationizada para a Etapa de Enxágue do Leito Aniônico</p>
-    </div>
+      <div>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
+      </div>
+    </form>
   );
 }
 

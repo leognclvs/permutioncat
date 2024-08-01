@@ -24,8 +24,9 @@
   background: #555;
 }
 .equiposm {
-  width: 97.5%;
-  font-size: 13px;
+  width: 60%;
+  padding: 1%;
+  height: 1%;
 }
 
 .coluna {
@@ -59,7 +60,7 @@ input::placeholder {
 }
 .osmosisinput {
   display: block;
-  width: 97.5%;
+  width: 60%;
   height: 4.25vh;
   padding: 1px;
   border: none;

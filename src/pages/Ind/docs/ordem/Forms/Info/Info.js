@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importa o useNavigate para navegação
 import './Info.css';
 import Informacao from '../../img/info.svg';
 
 function Info() {
   const [formData, setFormData] = useState({
     data: '',
-    cat: '',
-    codigoCliente: '',
+    cat_number: '',
+    codigo_cliente: '',
     cliente: '',
-    codigoEquipamento: '',
-    equipamento: '',
-    contatoCliente: '',
+    codigo_equip: '',
+    equip: '',
+    pessoa_contato: '',
     cep: '',
     endereco: '',
     numero: '',
     cidade: '',
     estado: '',
-    responsavelPermution: '',
-    tecnicoResponsavel: ''
+    resp_permution: '',
+    tecnico: ''
   });
+  const [popupVisible, setPopupVisible] = useState(false);
+  const navigate = useNavigate(); // Cria uma instância do useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,12 +56,27 @@ function Info() {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://127.0.0.1:8000/info/', formData);
+      setPopupVisible(true); // Exibe o popup
+      setTimeout(() => {
+        setPopupVisible(false);
+        navigate('/ind/ordem'); // Redireciona para o menu Ind após 5 segundos
+      }, 2500);
+    } catch (error) {
+      console.error('Erro ao salvar dados:', error);
+      alert('Erro ao salvar dados');
+    }
+  };
+
   return (
     <div className="form">
       <div>
         <img className="start" src={Informacao} alt="instalacao" />
       </div>
-      <div className="startext">Informações do Cliente</div>
+      <div className="infotext">Informações do Cliente</div>
       <div className="inputs">
         <label>Data Agendada:</label>
         <input
@@ -71,15 +89,15 @@ function Info() {
         <label>Número da CAT:</label>
         <input
           type="text"
-          name="cat"
-          value={formData.cat}
+          name="cat_number"
+          value={formData.cat_number}
           onChange={handleChange}
         />
         <label>Código do Cliente:</label>
         <input
           type="text"
-          name="codigoCliente"
-          value={formData.codigoCliente}
+          name="codigo_cliente"
+          value={formData.codigo_cliente}
           onChange={handleChange}
         />
         <label>Cliente:</label>
@@ -92,22 +110,22 @@ function Info() {
         <label>Código do Equipamento:</label>
         <input
           type="text"
-          name="codigoEquipamento"
-          value={formData.codigoEquipamento}
+          name="codigo_equip"
+          value={formData.codigo_equip}
           onChange={handleChange}
         />
         <label>Equipamento:</label>
         <input
           type="text"
-          name="equipamento"
-          value={formData.equipamento}
+          name="equip"
+          value={formData.equip}
           onChange={handleChange}
         />
         <label>Contato do Cliente:</label>
         <input
           type="text"
-          name="contatoCliente"
-          value={formData.contatoCliente}
+          name="pessoa_contato"
+          value={formData.pessoa_contato}
           onChange={handleChange}
         />
         <label>CEP:</label>
@@ -151,8 +169,8 @@ function Info() {
         />
         <label>Responsável Permution:</label>
         <select
-          name="responsavelPermution"
-          value={formData.responsavelPermution}
+          name="resp_permution"
+          value={formData.resp_permution}
           onChange={handleChange}
           required
         >
@@ -171,8 +189,8 @@ function Info() {
         </select>
         <label>Técnico Responsável:</label>
         <select
-          name="tecnicoResponsavel"
-          value={formData.tecnicoResponsavel}
+          name="tecnico"
+          value={formData.tecnico}
           onChange={handleChange}
           required
         >
@@ -186,6 +204,14 @@ function Info() {
           <option value="Natanael">Natanael</option>
         </select>
       </div>
+      <div>
+        <button className='saveind' onClick={handleSubmit}>Salvar</button>
+      </div>
+      {popupVisible && (
+        <div className="popup">
+          Informações do cliente salvas com sucesso!
+        </div>
+      )}
     </div>
   );
 }

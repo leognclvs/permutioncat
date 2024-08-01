@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
-
 .form-container {
   max-height: 85vh; /* Ajuste conforme necessário */
   overflow-y: auto;
@@ -63,59 +61,4 @@
 
 .savelab span {
   font-size: 11px;
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 1024px) {
-  .form-container {
-    padding: 10px;
-  }
-  
-  .savetext {
-    font-size: 1.6rem;
-  }
-
-  .savelab {
-    padding: 16px 60px;
-  }
-
-  .savelab span {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .form-container {
-    padding: 8px;
-  }
-  
-  .savetext {
-    font-size: 1.4rem;
-  }
-
-  .savelab {
-    padding: 16px 50px;
-  }
-
-  .savelab span {
-    font-size: 9px;
-  }
-}
-
-@media (max-width: 600px) {
-  .form-container {
-    padding: 6px;
-  }
-  
-  .savetext {
-    font-size: 1.2rem;
-  }
-
-  .savelab {
-    padding: 16px 40px;
-  }
-
-  .savelab span {
-    font-size: 8px;
-  }
 }

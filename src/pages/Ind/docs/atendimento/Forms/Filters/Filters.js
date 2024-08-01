@@ -1,13 +1,9 @@
 import "./Filters.css";
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import Filtro from "../../img/filtro.svg";
-import Flex from '../../../../../../components/Flex';
+import Manometro from "../../img/manometro.svg";
 
-function Filters() {
-  const [areiaEnabled, setAreiaEnabled] = useState(true);
-  const [carvaoEnabled, setCarvaoEnabled] = useState(true);
-  const [abrandadorEnabled, setAbrandadorEnabled] = useState(true);
+function Pressure() {
   const [formData, setFormData] = useState({
     frcl_areia: "",
     tr_areia: "",
@@ -23,56 +19,83 @@ function Filters() {
     tp_rep: ""
   });
 
+  const [availableCats, setAvailableCats] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('https://sua-api.com/filter-data');
-        setFormData(response.data);
+        const response = await axios.get("http://127.0.0.1:8000/catfiltros/");
+        setAvailableCats(response.data);
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+        console.error("Erro ao carregar CATs disponíveis:", error);
       }
     };
 
-    fetchData();
+    fetchAvailableCats();
   }, []);
 
-  const handleCheckboxAreia = (event) => {
-    setAreiaEnabled(event.target.checked);
-  };
-
-  const handleCheckboxCarvao = (event) => {
-    setCarvaoEnabled(event.target.checked);
-  };
-
-  const handleCheckboxAbrandador = (event) => {
-    setAbrandadorEnabled(event.target.checked);
-  };
-
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    // Se o campo alterado for "cat_number", busque as informações do cliente
+    if (name === "cat_number") {
+      fetchClientData(value);
+    }
+  };
+
+  const fetchClientData = async (catNumber) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/info/${catNumber}/`
+      );
+      setFormData((prevState) => ({
+        ...prevState,
+        cliente: response.data.cliente,
+      }));
+    } catch (error) {
+      console.error("Erro ao carregar informações do cliente:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://127.0.0.1:8000/filtros/", formData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
+    }
   };
 
   return (
     <div className="form">
       <div>
-        <img className="filter" src={Filtro} alt="instalacao" />
+        <img className="pressure" src={Manometro} alt="manometro" />
       </div>
-      <div className="startext">Filtros</div>
-      <Flex>
-        <div className="gridfilter">
+      <div className="pressuretext">Filtros</div>
+      <div className="inputs">
+      <label>Número da CAT:</label>
+        <select
+          name="cat_number"
+          value={formData.cat_number}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecione</option>
+          {availableCats.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
           <label className="switch" style={{ display: "flex" }}>
-            <input
-              type="checkbox"
-              checked={areiaEnabled}
-              onChange={handleCheckboxAreia}
-            />
-            <span className="slider round"></span>
-            <span className="text-slider">Areia/Zeólita</span>
+            <p className="texto">Areia/Zeólita</p>
           </label>
-          <div className={`form-section ${areiaEnabled ? 'open' : ''}`}>
             <label>Frequência/Ciclo Areia/Zeólita:</label>
             <input
               type="text"
@@ -106,19 +129,9 @@ function Filters() {
                 <span className="unit">Minutos</span>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="gridfilter">
           <label className="switch" style={{ display: "flex" }}>
-            <input
-              type="checkbox"
-              checked={carvaoEnabled}
-              onChange={handleCheckboxCarvao}
-            />
-            <span className="slider round"></span>
-            <span className="text-slider">Carvão</span>
+            <p className="texto">Carvão</p>
           </label>
-          <div className={`form-section ${carvaoEnabled ? 'open' : ''}`}>
             <label>Frequência/Ciclo Carvão:</label>
             <input
               type="text"
@@ -152,19 +165,13 @@ function Filters() {
                 <span className="unit">Minutos</span>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="gridfilter">
+          
+          <label>Cliente:</label>
+          <input type="text" name="cliente" value={formData.cliente} readOnly />
+
           <label className="switch" style={{ display: "flex" }}>
-            <input
-              type="checkbox"
-              checked={abrandadorEnabled}
-              onChange={handleCheckboxAbrandador}
-            />
-            <span className="slider round"></span>
-            <span className="text-slider">Abrandador</span>
+            <p className="texto">Abrandador</p>
           </label>
-          <div className={`form-section ${abrandadorEnabled ? 'open' : ''}`}>
             <label>Frequência/Ciclo Abrandador:</label>
             <input
               type="text"
@@ -237,12 +244,15 @@ function Filters() {
                 <span className="unit">Minutos</span>
               </div>
             </div>
-          </div>
         </div>
-      </Flex>
+        <div>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
+      </div>
       <p className="paragrafo">Nota¹: Tempos recomendados de contato das soluções: 30' (Mínimo); 45' (Médio); 60' (Máximo)</p>
     </div>
   );
 }
 
-export default Filters;
+export default Pressure;

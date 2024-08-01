@@ -1,36 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Services.css';
-import Garantia from '../../img/garantia.svg';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Services.css";
+import Garantia from "../../img/garantia.svg";
 
 function Services() {
   const [formData, setFormData] = useState({
-    materialDisponibilizado: '',
-    servicoExecutado: '',
-    sistemaSeguranca: '',
-    equipamentoOperando: '',
-    leituraCoerente: '',
-    amostraAgua: ''
+    cat_number: "",
+    cliente: "",
+    matDisp: "",
+    servExc: "",
+    sistIns: "",
+    equipVaz: "",
+    leiCoer: "",
+    amostra: "",
   });
 
+  const [availableCats, setAvailableCats] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('https://sua-api.com/services-data');
-        setFormData(response.data);
+        const response = await axios.get("http://127.0.0.1:8000/catservicos/");
+        setAvailableCats(response.data);
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+        console.error("Erro ao carregar CATs disponíveis:", error);
       }
     };
 
-    fetchData();
+    fetchAvailableCats();
   }, []);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    // Se o campo alterado for "cat_number", busque as informações do cliente
+    if (name === "cat_number") {
+      fetchClientData(value);
+    }
+  };
+
+  const fetchClientData = async (catNumber) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/info/${catNumber}/`
+      );
+      setFormData((prevState) => ({
+        ...prevState,
+        cliente: response.data.cliente,
+      }));
+    } catch (error) {
+      console.error("Erro ao carregar informações do cliente:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://127.0.0.1:8000/servicos/", formData);
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
+    }
   };
 
   return (
@@ -40,10 +75,30 @@ function Services() {
       </div>
       <div className="servicestext">Serviços e Garantia</div>
       <div className="inputs">
-        <label>Material disponibilizado integralmente para execução do serviço:</label>
+        <label>Número da CAT:</label>
+        <select
+          name="cat_number"
+          value={formData.cat_number}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecione</option>
+          {availableCats.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+
+        <label>Cliente:</label>
+        <input type="text" name="cliente" value={formData.cliente} readOnly />
+
+        <label>
+          Material disponibilizado integralmente para execução do serviço:
+        </label>
         <select
           name="materialDisponibilizado"
-          value={formData.materialDisponibilizado}
+          value={formData.matDisp}
           onChange={handleChange}
           required
         >
@@ -56,7 +111,7 @@ function Services() {
         <label>Serviço executado integralmente:</label>
         <select
           name="servicoExecutado"
-          value={formData.servicoExecutado}
+          value={formData.servExc}
           onChange={handleChange}
           required
         >
@@ -69,7 +124,7 @@ function Services() {
         <label>Sistema instalado em segurança:</label>
         <select
           name="sistemaSeguranca"
-          value={formData.sistemaSeguranca}
+          value={formData.sistIns}
           onChange={handleChange}
           required
         >
@@ -82,7 +137,7 @@ function Services() {
         <label>Equipamento operando sem vazamentos:</label>
         <select
           name="equipamentoOperando"
-          value={formData.equipamentoOperando}
+          value={formData.equipVaz}
           onChange={handleChange}
           required
         >
@@ -95,7 +150,7 @@ function Services() {
         <label>Instrumentos com leitura coerente:</label>
         <select
           name="leituraCoerente"
-          value={formData.leituraCoerente}
+          value={formData.leiCoer}
           onChange={handleChange}
           required
         >
@@ -108,7 +163,7 @@ function Services() {
         <label>Amostra de água coletada:</label>
         <select
           name="amostraAgua"
-          value={formData.amostraAgua}
+          value={formData.amostra}
           onChange={handleChange}
           required
         >
@@ -117,6 +172,11 @@ function Services() {
           <option value="nao">Não</option>
           <option value="na">N/A</option>
         </select>
+      </div>
+      <div>
+        <button className="saveind" onClick={handleSubmit}>
+          Salvar
+        </button>
       </div>
     </div>
   );
