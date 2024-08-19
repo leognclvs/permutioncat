@@ -17,7 +17,7 @@ function Ozone() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/catozonio/");
+        const response = await axios.get("https://permutioncat.fly.dev/catozonio/");
         setAvailableCats(response.data);
       } catch (error) {
         console.error("Erro ao carregar CATs disponíveis:", error);
@@ -42,7 +42,7 @@ function Ozone() {
   const fetchClientData = async (catNumber) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/info/${catNumber}/`
+        `https://permutioncat.fly.dev/info/${catNumber}/`
       );
       setFormData((prevState) => ({
         ...prevState,
@@ -56,7 +56,7 @@ function Ozone() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:8000/ozonio/", formData);
+      await axios.post("https://permutioncat.fly.dev/ozonio/", formData);
       alert("Dados salvos com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar dados:", error);

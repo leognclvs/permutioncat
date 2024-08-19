@@ -59,7 +59,7 @@ function Training() {
     formData.append("assinatura", dataURLtoFile(signature, "signature.png"));
 
     try {
-      await axios.post("http://127.0.0.1:8000/treinamento/", formData, {
+      await axios.post("https://permutioncat.fly.dev/treinamento/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

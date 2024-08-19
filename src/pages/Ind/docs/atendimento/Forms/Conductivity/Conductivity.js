@@ -22,7 +22,7 @@ function Conductivity() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/catafericao/");
+        const response = await axios.get("https://permutioncat.fly.dev/catafericao/");
         setAvailableCats(response.data);
       } catch (error) {
         console.error("Erro ao carregar CATs disponíveis:", error);
@@ -48,7 +48,7 @@ function Conductivity() {
   const fetchClientData = async (catNumber) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/info/${catNumber}/`
+        `https://permutioncat.fly.dev/info/${catNumber}/`
       );
       setFormData((prevState) => ({
         ...prevState,
@@ -62,7 +62,7 @@ function Conductivity() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:8000/afericao/", formData);
+      await axios.post("https://permutioncat.fly.dev/afericao/", formData);
       alert("Dados salvos com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar dados:", error);

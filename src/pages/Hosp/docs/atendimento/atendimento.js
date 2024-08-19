@@ -34,15 +34,6 @@ function Atendimento() {
         fetchData();
     }, [page]);
 
-    const handleSubmit = async () => {
-        try {
-            await axios.post(`API_URL/page${page}`, formData); // Substitua 'API_URL' pela sua URL real
-            alert('Dados salvos com sucesso!');
-        } catch (error) {
-            alert('Erro ao salvar dados');
-        }
-    };
-
     return (
         <Flex>
             <Box className='sidebar' style={{ width: '20%' }}>
@@ -88,9 +79,6 @@ function Atendimento() {
                         <Conductivity formData={formData} setFormData={setFormData} />
                     </form>
                 )}
-                <div className='sidebar-items'>
-                    <button className='saveind' onClick={handleSubmit}>Salvar</button>
-                </div>
             </Box>
         </Flex>
     );

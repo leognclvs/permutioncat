@@ -17,7 +17,7 @@ function Order() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/cats-ordem/');
+        const response = await axios.get('https://permutioncat.fly.dev/cats-ordem/');
         setAvailableCats(response.data);
       } catch (error) {
         console.error('Erro ao carregar CATs disponíveis:', error);
@@ -42,7 +42,7 @@ function Order() {
 
   const fetchClientData = async (catNumber) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/info/${catNumber}/`);
+      const response = await axios.get(`https://permutioncat.fly.dev/info/${catNumber}/`);
       setFormData((prevState) => ({
         ...prevState,
         cliente: response.data.cliente
@@ -55,7 +55,7 @@ function Order() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://127.0.0.1:8000/ordem/', formData);
+      await axios.post('https://permutioncat.fly.dev/ordem/', formData);
       setPopupVisible(true); // Exibe o popup
       setTimeout(() => {
         setPopupVisible(false);

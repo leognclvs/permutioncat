@@ -24,7 +24,7 @@ function Start() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/catstart/');
+        const response = await axios.get('http://permutioncat.fly.dev/catstart/');
         setAvailableCats(response.data);
       } catch (error) {
         console.error('Erro ao carregar CATs disponíveis:', error);
@@ -49,7 +49,7 @@ function Start() {
 
   const fetchClientData = async (catNumber) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/info/${catNumber}/`);
+      const response = await axios.get(`http://permutioncat.fly.dev/info/${catNumber}/`);
       setFormData((prevState) => ({
         ...prevState,
         cliente: response.data.cliente
@@ -62,7 +62,7 @@ function Start() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://127.0.0.1:8000/start/', formData);
+      await axios.post('http://permutioncat.fly.dev/start/', formData);
       alert('Dados salvos com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar dados:', error);

@@ -23,7 +23,7 @@ function Chemistry() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/catdosagem/");
+        const response = await axios.get("https://permutioncat.fly.dev/catdosagem/");
         setAvailableCats(response.data);
       } catch (error) {
         console.error("Erro ao carregar CATs disponíveis:", error);
@@ -49,7 +49,7 @@ function Chemistry() {
   const fetchClientData = async (catNumber) => {
     try {
       console.log(`Fetching client data for CAT number: ${catNumber}`);
-      const response = await axios.get(`http://127.0.0.1:8000/info/${catNumber}/`);
+      const response = await axios.get(`https://permutioncat.fly.dev/info/${catNumber}/`);
       console.log("Client data fetched:", response.data);
       setFormData((prevState) => ({
         ...prevState,
@@ -63,7 +63,7 @@ function Chemistry() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:8000/dosagem/", formData);
+      await axios.post("https://permutioncat.fly.dev/dosagem/", formData);
       alert("Dados salvos com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar dados:", error);
