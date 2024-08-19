@@ -17,7 +17,7 @@ function Order() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('https://permutioncat.fly.dev/cats-relatorio/');
+        const response = await axios.get('https://permutioncat.fly.dev/catrel/');
         setAvailableCats(response.data);
       } catch (error) {
         console.error('Erro ao carregar CATs disponíveis:', error);
