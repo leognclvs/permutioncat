@@ -6,7 +6,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Layout from "./components/layout";
 
-import { Home, Lab, Hosp, Ind } from "./pages";
+import { Home, Lab, Hosp, Ind, Tecnicos, Relatorio } from "./pages";
 import {
   DashboardLab,
   OrdemLab,
@@ -183,6 +183,22 @@ root.render(
           element={
             <Layout>
               <Laboratorial />
+            </Layout>
+          }
+        />
+        <Route
+          path="/tecnicos"
+          element={
+            <Layout>
+              <Tecnicos />
+            </Layout>
+          }
+        />
+        <Route
+          path="/relatorio"
+          element={
+            <Layout>
+              <Relatorio />
             </Layout>
           }
         />
