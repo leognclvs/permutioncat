@@ -29,33 +29,40 @@ function Info() {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
-
+  
   const handleCepChange = async (e) => {
     const cep = e.target.value;
     setFormData((prevState) => ({
       ...prevState,
-      cep: cep
+      cep: cep,
     }));
-
+  
     if (cep.length === 9) {
       try {
         const response = await axios.get(`https://viacep.com.br/ws/${cep.replace('-', '')}/json/`);
         const data = response.data;
-        setFormData((prevState) => ({
-          ...prevState,
-          endereco: data.logradouro,
-          cidade: data.localidade,
-          estado: data.uf
-        }));
+  
+        if (!data.erro) {
+          setFormData((prevState) => ({
+            ...prevState,
+            endereco: data.logradouro,
+            cidade: data.localidade,
+            estado: data.uf,
+          }));
+        } else {
+          console.error('CEP não encontrado');
+          alert('CEP não encontrado');
+        }
       } catch (error) {
         console.error('Erro ao buscar o CEP:', error);
+        alert('Erro ao buscar o CEP');
       }
     }
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -63,13 +70,14 @@ function Info() {
       setPopupVisible(true); // Exibe o popup
       setTimeout(() => {
         setPopupVisible(false);
-        navigate('/ind/ordem'); // Redireciona para o menu Ind após 5 segundos
+        navigate('/ind/ordem'); // Redireciona para o menu Ind após 2.5 segundos
       }, 2500);
     } catch (error) {
       console.error('Erro ao salvar dados:', error);
       alert('Erro ao salvar dados');
     }
   };
+  
 
   return (
     <div className="form">
