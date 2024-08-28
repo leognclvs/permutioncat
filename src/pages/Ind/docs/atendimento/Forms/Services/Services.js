@@ -97,7 +97,7 @@ function Services() {
           Material disponibilizado integralmente para execução do serviço:
         </label>
         <select
-          name="materialDisponibilizado"
+          name="matDisp"
           value={formData.matDisp}
           onChange={handleChange}
           required
@@ -110,7 +110,7 @@ function Services() {
 
         <label>Serviço executado integralmente:</label>
         <select
-          name="servicoExecutado"
+          name="servExc"
           value={formData.servExc}
           onChange={handleChange}
           required
@@ -123,7 +123,7 @@ function Services() {
 
         <label>Sistema instalado em segurança:</label>
         <select
-          name="sistemaSeguranca"
+          name="sistIns"
           value={formData.sistIns}
           onChange={handleChange}
           required
@@ -136,7 +136,7 @@ function Services() {
 
         <label>Equipamento operando sem vazamentos:</label>
         <select
-          name="equipamentoOperando"
+          name="equipVaz"
           value={formData.equipVaz}
           onChange={handleChange}
           required
@@ -149,7 +149,7 @@ function Services() {
 
         <label>Instrumentos com leitura coerente:</label>
         <select
-          name="leituraCoerente"
+          name="leiCoer"
           value={formData.leiCoer}
           onChange={handleChange}
           required
@@ -162,7 +162,7 @@ function Services() {
 
         <label>Amostra de água coletada:</label>
         <select
-          name="amostraAgua"
+          name="amostra"
           value={formData.amostra}
           onChange={handleChange}
           required
