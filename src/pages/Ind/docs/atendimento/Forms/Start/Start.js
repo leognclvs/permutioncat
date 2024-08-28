@@ -24,10 +24,10 @@ function Start() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get('https://permutioncat.fly.dev/catstart/');
+        const response = await axios.get("https://permutioncat.fly.dev/catstart/");
         setAvailableCats(response.data);
       } catch (error) {
-        console.error('Erro ao carregar CATs disponíveis:', error);
+        console.error("Erro ao carregar CATs disponíveis:", error);
       }
     };
 
@@ -38,35 +38,37 @@ function Start() {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
 
     // Se o campo alterado for "cat_number", busque as informações do cliente
-    if (name === 'cat_number') {
+    if (name === "cat_number") {
       fetchClientData(value);
     }
   };
 
   const fetchClientData = async (catNumber) => {
     try {
-      const response = await axios.get(`http://permutioncat.fly.dev/info/${catNumber}/`);
+      const response = await axios.get(
+        `https://permutioncat.fly.dev/info/${catNumber}/`
+      );
       setFormData((prevState) => ({
         ...prevState,
-        cliente: response.data.cliente
+        cliente: response.data.cliente,
       }));
     } catch (error) {
-      console.error('Erro ao carregar informações do cliente:', error);
+      console.error("Erro ao carregar informações do cliente:", error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://permutioncat.fly.dev/start/', formData);
-      alert('Dados salvos com sucesso!');
+      await axios.post("https://permutioncat.fly.dev/start/", formData);
+      alert("Dados salvos com sucesso!");
     } catch (error) {
-      console.error('Erro ao salvar dados:', error);
-      alert('Erro ao salvar dados');
+      console.error("Erro ao salvar dados:", error);
+      alert("Erro ao salvar dados");
     }
   };
 
@@ -77,7 +79,7 @@ function Start() {
       </div>
       <div className="servicestext">Instalação, Start-Up e Treinamento</div>
       <div className="inputs">
-        <label>Número da CAT:</label>
+      <label>Número da CAT:</label>
         <select
           name="cat_number"
           value={formData.cat_number}
@@ -86,17 +88,14 @@ function Start() {
         >
           <option value="">Selecione</option>
           {availableCats.map((cat) => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
           ))}
         </select>
-        
+
         <label>Cliente:</label>
-        <input
-          type="text"
-          name="cliente"
-          value={formData.cliente}
-          readOnly
-        />
+        <input type="text" name="cliente" value={formData.cliente} readOnly />
         
         <label>Pré-requisitos finalizados antes da chegada do técnico:</label>
         <select name="preReq" value={formData.preReq} onChange={handleChange} required>
