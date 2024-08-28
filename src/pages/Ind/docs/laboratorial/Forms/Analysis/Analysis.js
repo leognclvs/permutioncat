@@ -31,7 +31,7 @@ function Analysis() {
   useEffect(() => {
     const fetchAvailableCats = async () => {
       try {
-        const response = await axios.get("https://permutioncat.fly.dev//catagua/");
+        const response = await axios.get("https://permutioncat.fly.dev/catagua/");
         setAvailableCats(response.data);
       } catch (error) {
         console.error("Erro ao carregar CATs disponíveis:", error);
@@ -59,7 +59,7 @@ function Analysis() {
     if (value) {
       try {
         const response = await axios.get(
-          `https://permutioncat.fly.dev//info/${value}/`
+          `https://permutioncat.fly.dev/info/${value}/`
         );
         setCliente(response.data.cliente);
       } catch (error) {
@@ -80,7 +80,7 @@ function Analysis() {
     );
 
     try {
-      await axios.post("https://permutioncat.fly.dev//analise_agua/", mergedFormData);
+      await axios.post("https://permutioncat.fly.dev/analise_agua/", mergedFormData);
       alert("Dados salvos com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar dados:", error);
