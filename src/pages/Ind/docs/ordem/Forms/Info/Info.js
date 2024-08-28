@@ -37,31 +37,25 @@ function Info() {
     const cep = e.target.value;
     setFormData((prevState) => ({
       ...prevState,
-      cep: cep,
+      cep: cep
     }));
-  
+
     if (cep.length === 9) {
       try {
         const response = await axios.get(`https://viacep.com.br/ws/${cep.replace('-', '')}/json/`);
         const data = response.data;
-  
-        if (!data.erro) {
-          setFormData((prevState) => ({
-            ...prevState,
-            endereco: data.logradouro,
-            cidade: data.localidade,
-            estado: data.uf,
-          }));
-        } else {
-          console.error('CEP não encontrado');
-          alert('CEP não encontrado');
-        }
+        setFormData((prevState) => ({
+          ...prevState,
+          endereco: data.logradouro,
+          cidade: data.localidade,
+          estado: data.uf
+        }));
       } catch (error) {
         console.error('Erro ao buscar o CEP:', error);
-        alert('Erro ao buscar o CEP');
       }
     }
   };
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault();
