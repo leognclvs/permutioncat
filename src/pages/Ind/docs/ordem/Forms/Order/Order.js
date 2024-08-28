@@ -59,7 +59,7 @@ function Order() {
       setPopupVisible(true); // Exibe o popup
       setTimeout(() => {
         setPopupVisible(false);
-        navigate('/menu-ind'); // Redireciona para o menu Ind após 5 segundos
+        navigate('/ind'); // Redireciona para o menu Ind após 5 segundos
       }, 2500);
     } catch (error) {
       console.error('Erro ao salvar dados:', error);
