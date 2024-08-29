@@ -2,6 +2,7 @@ import './Home.css';
 import hosp from './hosp.svg';
 import ind from './ind.svg';
 import lab from './lab.svg';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 function Home() {
     return(
@@ -17,6 +18,8 @@ function Home() {
 
       <a href='/ind' className='icon'>
       <img className='img' src={ind} alt='industrial'/></a>
+
+      <SpeedInsights />
 
       </div>
     </section>
