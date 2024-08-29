@@ -161,7 +161,7 @@ function Analysis() {
               <label>Data de Atendimento:</label>
               <input
                 type="text"
-                name={`data_at${i + 1}`}
+                name="data_at"
                 value={data.data_at}
                 onChange={(e) => handleChange(e, i)}
                 style={{ display: "block", marginBottom: "10px" }}
@@ -171,7 +171,7 @@ function Analysis() {
               <div className="input-with-unit">
                 <input
                   type="text"
-                  name={`hora_cheg${i + 1}`}
+                  name="hora_cheg"
                   value={data.hora_cheg}
                   onChange={(e) => handleChange(e, i)}
                   style={{
@@ -185,7 +185,7 @@ function Analysis() {
               <label>Hora de Saída:</label>
               <input
                 type="text"
-                name={`hora_sai${i + 1}`}
+                name="hora_sai"
                 value={data.hora_sai}
                 onChange={(e) => handleChange(e, i)}
                 style={{ display: "block", marginBottom: "10px" }}
