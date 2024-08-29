@@ -12,8 +12,6 @@ function Analysis() {
       data_at: "",
       hora_cheg: "",
       hora_sai: "",
-      assinatura1: "",
-      assinatura2: "",
     },
   ]);
 
@@ -66,29 +64,56 @@ function Analysis() {
     }
   };
 
+  const dataURLtoBlob = (dataurl) => {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const signatures = {
       assinatura1: sigCanvas1.current
-        ? sigCanvas1.current.getTrimmedCanvas().toDataURL("image/png")
+        ? dataURLtoBlob(sigCanvas1.current.getTrimmedCanvas().toDataURL("image/png"))
         : "",
       assinatura2: sigCanvas2.current
-        ? sigCanvas2.current.getTrimmedCanvas().toDataURL("image/png")
+        ? dataURLtoBlob(sigCanvas2.current.getTrimmedCanvas().toDataURL("image/png"))
         : "",
     };
 
-    const mergedFormData = {
-      ...formData[0], // assuming there's only one formData entry
-      ...signatures,
-      cat_number: catNumber,
-      cliente,
-    };
+    const mergedFormData = new FormData();
+    mergedFormData.append("obs_tecnicas", formData[0].obs_tecnicas);
+    mergedFormData.append("pendencias", formData[0].pendencias);
+    mergedFormData.append("data_at", formData[0].data_at);
+    mergedFormData.append("hora_cheg", formData[0].hora_cheg);
+    mergedFormData.append("hora_sai", formData[0].hora_sai);
+    mergedFormData.append("cat_number", catNumber);
+    mergedFormData.append("cliente", cliente);
+
+    if (signatures.assinatura1) {
+      mergedFormData.append("assinatura1", signatures.assinatura1, "assinatura1.png");
+    }
+
+    if (signatures.assinatura2) {
+      mergedFormData.append("assinatura2", signatures.assinatura2, "assinatura2.png");
+    }
 
     try {
       await axios.post(
         "https://permutioncat.fly.dev/tecnicos/",
-        mergedFormData
+        mergedFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       alert("Dados salvos com sucesso!");
     } catch (error) {
